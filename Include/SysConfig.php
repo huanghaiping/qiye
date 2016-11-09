@@ -1,0 +1,1 @@
+a:8:{s:13:"DEFAULT_THEME";s:7:"default";s:9:"KEFU_OPEN";s:1:"1";s:13:"PAGE_LISTROWS";s:2:"20";s:12:"DEFAULT_LANG";s:2:"cn";s:14:"LANG_SWITCH_ON";s:1:"1";s:16:"DOMAIN_SWITCH_ON";s:1:"1";s:17:"BROWSER_SWITCH_ON";s:1:"0";s:9:"URL_MODEL";s:1:"0";}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{$admin_tile}</title>
+<meta charset="UTF-8">
+<include file="Common:jscss" />
+<style type="text/css">
+body {
+	padding-bottom: 40px;
+}
+select {
+	color:#000;
+}
+.sidebar-nav {
+	padding: 9px 0;
+}
+ @media (max-width: 980px) {
+/* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+	float: none;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+}
+</style>
+</head>
+<body>
+<div class="container-fluid"> 
+<include file="Common:position" />
+<form action="{:U('saveAdd')}" method="post" enctype="multipart/form-data" id="myform">
+<input type="hidden" name="id" value="{$info.id}"/>
+  <table class="table table-bordered table-hover definewidth m10">
+   <tr>
+      <th>父级菜单：</th>
+      <td><select name="pid"  class="form-control w30">
+          
+              {$info.pidOption}
+            
+        </select></td>
+    </tr>
+    <tr>
+      <th width="120">菜单标识：</th>
+      <td><input name="name" id="name" type="text" class="form-control w30"  size="40" value="{$info.name}" />
+      <div class="help-block" >  英文，为MODEL_NAME的时候首字母大写(开发人员填写)</div></td>
+    </tr>
+    <tr>
+      <th>菜单名称：</th>
+      <td><input class="form-control w30"  name="title" id="title" type="text" size="40" value="{$info.title}" />
+       <div class="help-block" > 中英文均可(开发人员填写)</div></td>
+    </tr>
+    <tr>
+      <th>状态：</th>
+      <td><select name="status" class="form-control w30">
+          <if condition="$info.status eq 1">
+            <option value="1" selected>启用</option>
+            <option value="0">禁用</option>
+            <else/>
+            <option value="1">启用</option>
+            <option value="0" selected>禁用</option>
+          </if>
+        </select>
+        <div class="help-block" >如果禁用那么只有超级管理员才可以访问，其他用户都无权访问</div></td>
+    </tr>
+    <tr>
+      <th>类型：</th>
+      <td><select name="level"   class="form-control w30">
+          
+              {$info.levelOption}
+            
+        </select>
+        <div class="help-block" >项目（GROUP_NAME;  模块(MODEL_NAME); 操作（ACTION_NAME）</div></td>
+    </tr>
+    <if condition="$info.level eq 2">
+      <tr>
+        <th>跳转模块：</th>
+        <td><input class="form-control w30"  name="module" type="text" size="40" value="{$info.module}" />
+         <div class="help-block" >当该操作是模块,就需要加上跳转的方法</div></td>
+      </tr>
+    </if>
+   
+    <tr>
+      <th>显示排序：</th>
+      <td><input class="form-control w30"  name="sort" type="text" size="40" value="{$info.sort}" /></td>
+    </tr>
+    <tr>
+      <th>描 述：</th>
+      <td><textarea name="remark" class="form-control"  style="width: 400px;">{$info.remark}</textarea></td>
+    </tr>
+    <tr>
+      <td class="tableleft"></td>
+      <td><button type="submit" class="btn btn-primary btn6" > 保存 </button>
+        <button type="button" class="btn btn6" onclick="history.go(-1)" name="backid" id="backid">返回</button></td>
+    </tr>
+  </table>
+  
+</form>
+</div>
+
+<script type="text/javascript">
+    $(function () {       
+		$('#backid').click(function(){
+				window.location.href="{:U('index')}";
+		 });
+		 $("#myform").submit(function(){
+			 if($("#name").val().length<=0){
+				layer.tips('请输入菜单名称', '#name',{tips: [2, '#3a8ea1']});
+				return false;	
+			 }
+			 if($("#title").val().length<=0){
+				layer.tips('请输入菜单标识', '#title',{tips: [2, '#3a8ea1']});
+				return false;	
+			 }
+		 });
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<include file="Common:header" />
+<include file="Common:layer" />
+<div class="box">
+		<div class="login-box">
+			<div class="login-title text-center">
+				<h1><small>{:L('SIGN_IN')}</small></h1>
+			</div>
+			<div class="login-content">
+			<div class="form">
+			<form action="{:U('Login/index')}" method="post">
+				<div class="form-group">
+					<div class="col-xs-12  ">
+						<div class="input-group">
+							<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+							<input type="text" id="username" name="username" class="form-control" placeholder="{:L('USER_NAME')}">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-12  ">
+						<div class="input-group">
+							<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+							<input type="password" id="password" name="password" class="form-control" placeholder="{:L('PASSWORD')}">
+						</div>
+					</div>
+				</div>
+				<div class="form-group form-actions">
+					<div class="col-xs-4 col-xs-offset-4 ">
+                    	<input name="jumpUrl" type="hidden" value="{$jumpUrl}" />
+						<button type="submit" id="submitForm" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-off"></span> {:L('SIGN_IN')}</button>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-6 link">
+						<p class="text-center remove-margin"><small>{:L('FORGET_THE_PASSWORD')}</small> <a href="{:U('Reg/sendpwd')}" ><small>{:L('BACK_PASSWORD')}<</small></a>
+						</p>
+					</div>
+					<div class="col-xs-6 link">
+						<p class="text-center remove-margin"><small>{:L('NOT_REGISTERED_YET')}</small> <a href="{:U('Reg/index')}" ><small>{:L('REGISTER')}</small></a>
+						</p>
+					</div>
+				</div>
+			</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(function(){
+	$("#submitForm").click(function(){
+		var username=$("#username");
+		var passowrd=$("#password");
+		if(username.val().length<=0){
+			layer.tips("{:L('ENTER_YOUR_ACCOUNT_NUMBER')}", '#username',{tips: [2, '#337ab7']});
+			return false;
+		}
+		if(passowrd.val().length<=0){
+			layer.tips("{:L('PLEASE_INPUT_A_PASSWORD')}", '#password',{tips: [2, '#337ab7']});
+			return false;
+		}
+		return true;
+	});	
+})
+</script>
+<!--网页底部--> 
+<include file="Common:footer" /> 

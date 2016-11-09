@@ -1,0 +1,40 @@
+<include file="Common:header" />
+<!--内页 BAN-->
+
+<div class="ab-ban"> <img src="{$categorys[$topid]['thumb']}"/> </div>
+<!--内页 BAN 结束-->
+
+<div class="container mt20">
+  <div class="row">
+    <div class="col-lg3 col-md-3 hidden-sm hidden-xs l-list">
+      <h2 class="l-title">{$categorys[$topid]['title']}</h2>
+      <ul class="l-sub">
+        <Vo:subcat catid="$topid" > <li 
+          <eq name="catid" value="$subcat.id"> class="active" </eq>
+          ><a href="{$subcat.url}">{$subcat.title}</a>
+          </li>
+        </Vo:subcat>
+      </ul>
+    </div>
+    <div class="col-lg-9 col-md-9 col-sm-12 r-list">
+      <div class="mpx-box">
+        <h2 class="fl">{$categorys[$catid]['title']}</h2>
+        <div class="wz  hidden-xs"> {:L('CATPOS')}：<a href="__ROOT__/">{:L('HOME')}</a> >
+          <Vo:crumbs catid="catid"><a href="{$crumbs.url}">{$crumbs.title}</a>
+            <eq name="crumbs['end']" value="0"> > </eq>
+          </Vo:crumbs>
+        </div>
+      </div>
+      <div class="ab-txt">
+        <header class="article-header">
+          <h1 class="article-title" style="font-size:24px">{$title}</h1>
+        </header>
+        <article class="article-content"> {$content|stripcslashes} </article>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--网页底部--> 
+<include file="Common:footer" /> 
+<!--网页底部 结束--> 

@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>获取广告代码</title>
+  <include file="Common:jscss" />
+  <style type="text/css">
+.iptxt {
+	width:300px;
+}
+.iptxt1 {
+	width:300px;
+}
+</style>
+  </head>
+  <body>
+<include file="Common:position" />
+<div id="main" class="main" >
+    <div class="content">
+    <table class="table table-bordered table-hover definewidth m10" style="font-size:12px">
+        <tr bgcolor="#FFFFFF">
+        <td width="12%" height="36"  class="tLeft">模板里的代码：</td>
+        <td width="88%" colspan="5"  class="tLeft">{$thinkphp} <br></td>
+      </tr>
+        <tr bgcolor="#FFFFFF">
+        <td  class="tLeft">外部链接代码</td>
+        <td colspan="5"  class="tLeft">&lt;script type=&quot;text/javascript&quot; src=&quot;{$SITE_URL}/Ad/index/adid/{$waiCode}&quot;&gt;&lt;/script&gt;</td>
+      </tr>
+      </table>
+  </div>
+  </div>
+</body>
+</html>

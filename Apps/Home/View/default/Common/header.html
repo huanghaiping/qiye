@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{$site_title}</title>
+	<meta name="keywords" content="{$site_keywords}" />
+	<meta name="description" content="{$site_description}" />
+    <link href="__PUBLIC__/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../Public/css/swiper.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../Public/css/basis.css"/>
+    <script src="../Public/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../Public/js/respond.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../Public/js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../Public/js/jquery.sidr.min.js"></script>
+	<script>
+		$(function(){
+		   $('#left-menu').sidr({
+		name: 'sidr-left',
+		side: 'right'
+		    });
+		});
+	</script>
+    <!--[if lt IE 9]>
+	    <script src="../Public/js/html5shiv.min.js"></script>
+	    <script src="../Public/js/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+	<body>
+					<!--小屏菜单 -->
+		<div class="clearfix xs-nav" id="sidr-left">
+			<ul>
+            	
+				<li  <empty name="topid">class="active"</empty> ><a href="__ROOT__/{$lang}">{:L('HOME')}</a></li>
+                <Vo:nav position="2">
+				<li <eq name="topid" value="$nav['id']">class="active"</eq>><a href="{$nav.url}">{$nav.title}</a></li>
+                </Vo:nav>
+		 
+			</ul>
+		</div>
+        
+		<header id="header">
+			<div class="top-bar">
+				<div class="container">
+					<div class="fl">
+						{:L('ZIXUN_HOT')}： xxx-xxx-xxxxx
+					</div>
+					<div class="fr top-a">
+                   	<volist name="lang_list" id="vo">
+                   		<a href="{$vo.url}">{$vo.name}</a>
+                    </volist>						 
+					</div>
+                     <div class="navbar-right member" style="margin-right: 15px;">
+				
+                <if condition="$userInfo">
+                   <div class="dropdown">
+                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                    <img src="{$userInfo.faceurl}" width="24">{$userInfo.name} 
+                    <span class="label label-danger hide gomyCart_top"></span>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a href="{:U('User/order')}" rel="nofollow" title="{:L('ORDER_LIST')}">{:L('ORDER_LIST')}</a></li>
+                    <li><a href="{:U('User/index')}" rel="nofollow" title="{:L('MEMBER_CENTER')}">{:L('MEMBER_CENTER')}</a></li>
+                    <li role="separator" class="divider"></li>		
+                    <li><a href="{:U('Reg/logout')}" rel="nofollow" title="{:L('SIGN_OUT')}">{:L('SIGN_OUT')}</a></li>
+                  </ul>
+            </div>
+                <else />
+                <a href="{:U('Login/index')}"  title="{:L('SIGN_IN')}" class="btn btn-info">{:L('SIGN_IN')}</a>
+				<a href="{:U('Reg/index')}" title="{:L('REGISTER')}"  class="btn btn-success">{:L('REGISTER')}</a>
+                </if>
+				
+			</div>
+            
+            
+				</div>
+			</div>
+			
+			<div class="nav-box">
+				<div class="container">
+					<div class="fl">
+						<a href="__ROOT__/"><img src="{$Think.config.SITE_LOGO}" class="logo" /></a>
+					</div>
+					<nav class="fr nav">
+						<i class="icon-language"><img src="../Public/img/yy.png"/></i>
+						<i class="icon-menu"id="left-menu" >
+							<img src="../Public/img/nav.png"/>
+						</i>
+						<!--大屏菜单 -->
+						<ul>
+							<li <empty name="topid">class="active"</empty> ><a href="__ROOT__/{$lang}">{:L('HOME')}</a></li>
+                             <Vo:nav position="2">
+                                 <li <eq name="topid" value="$nav['id']">class="active"</eq> ><a href="{$nav.url}">{$nav.title}</a></li>
+                   			 </Vo:nav>
+						 
+						 
+						</ul>
+                        
+					</nav>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			<div class="language-txt">
+				<a href="#">English</a>
+				<a href="#">中文简体</a>
+			</div>
+		</header>

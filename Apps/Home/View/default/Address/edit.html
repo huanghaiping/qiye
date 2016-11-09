@@ -1,0 +1,123 @@
+<link href="__PUBLIC__/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="../Public/css/basis.css"/>
+<script src="../Public/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+<include file="Common:layer" />
+<div class="add_address">
+<ul class="mt20">
+  <li class="clearfix">
+    <div class="left fleft"><span class="required_span">*</span>{:L('CONSIGNEE')}：</div>
+    <div class="fleft">
+    	<input name="id" id="id" type="hidden" value="{$info.id}" />
+      <input  type="text"  class="input"   name="consignee" id="consignee" value="{$info.consignee}">
+    </div>
+  </li>
+  <li class="clearfix">
+    <div class="left fleft"><span class="required_span">*</span>{:L("LOCAL_AREA")}：</div>
+    <div id="Area" class="fleft">
+      <select id="province" name="province" class="areas form-control w30" runat="server" val="city">
+        <option value="">{:L("PLEASE_SELECT_PROVINCE")}</option>
+        <volist name="province" id="vo">
+        <option value="{$vo.id}" data-rel="{$vo.area_name}" <eq name="info['province']" value="$vo['id']"> selected="selected" </eq> >{$vo.area_name}</option>
+ 		</volist>
+      </select>
+      <select id="city" name="city" runat="server" class="areas form-control w30" val="county">
+        <option value="" data-rel="">{:L("PLEASE_SELECT_THE_CITY")}</option>
+          <volist name="city" id="vo">
+        <option value="{$vo.id}" data-rel="{$vo.area_name}" <eq name="info['city']"  value="$vo['id']"> selected="selected" </eq> >{$vo.area_name}</option>
+ 		</volist>
+      </select>
+      <select id="county" name="county" runat="server" class="form-control w30">
+        <option value="" data-rel="">{:L("PLEASE_SELECT_AREA")}</option>
+          <volist name="area" id="vo">
+        <option value="{$vo.id}" data-rel="{$vo.area_name}" <eq name="info['county']"  value="$vo['id']"> selected="selected" </eq> >{$vo.area_name}</option>
+ 		</volist>
+      </select>
+    </div>
+  </li>
+  <li class="clearfix">
+    <div class="left fleft"><span class="required_span">*</span>{:L("DETAILED_ADDRESS")}：</div>
+    <div class="fleft">
+      <input value="{$info.address}" type="text" class="input" name="address" id="address">
+    </div>
+  </li>
+  <li class="clearfix">
+    <div class="left fleft"><span class="required_span">*</span>{:L('PHONE_NUMBER')}：</div>
+    <div class="fleft">
+      <input value="{$info.mobile}" type="text" class="input" name="mobile" id="mobile" style="width:150px;">
+    </div>
+     <div class="left fleft"><span class="required_span">*</span>{:L('FIXED_TELEPHONE')}：</div>
+    <div class="fleft">
+      <input value="{$info.telphone}" type="text" class="input" name="telphone" id="telphone" style="width:150px;">
+    </div>
+  </li>
+ 
+   <li class="clearfix">
+    <div class="left fleft"><span class="required_span">*</span>{:L("EMAIL")}：</div>
+    <div class="fleft">
+      <input value="{$info.email}" type="text" class="input" name="email" id="email">
+		
+    </div>
+    <div class="help-block" style="width:100%;display: inline-block;">{:L("ORDER_EMAIL_NOTES")}</div>
+  </li>
+  <li class="clearfix">
+    <div class="left fleft">&nbsp;</div>
+    <div class="fleft">
+    	
+      	<input type="button" value="{:L('SUBMIT')}" class="btn btn-primary btn6" id="submit_address">
+    </div>
+  </li>
+</ul>
+</div>
+<script type="text/javascript">
+$(function(){
+	//地区的选择
+	$(".areas").change(function(){
+		  var ajaxurl="{:U('Ajax/area')}";
+		  var areaId=this.value;
+		  var areaType=$(this).attr("val");
+		  $.post(ajaxurl,{'areaId':areaId},function(data){
+			  if(areaType==='city'){
+				 $('#'+areaType).html('<option value="">{:L("PLEASE_SELECT_THE_CITY")}</option>');
+				 $('#county').html('<option value="">{:L("PLEASE_SELECT_AREA")}</option>');
+			  }else if(areaType==='area'){
+				 $('#'+areaType).html('<option value="">{:L("PLEASE_SELECT_AREA")}</option>');
+			  }
+			  if(areaType!=='null'){
+				  $("#county").show();
+				  $.each(data,function(no,items){
+					  $('#'+areaType).append('<option value="'+items.id+'"  data-rel="'+items.area_name+'">'+items.area_name+'</option>');
+				  });
+			  }
+		  });  
+	 });
+	 
+	  $("#submit_address").click(function(){
+		  var consignee=$("#consignee").val(),  province_id = $("#province").find("option:selected").val(),
+					province_text = $("#province").find("option:selected").attr("data-rel"),
+                    city_id = $("#city").find("option:selected").val(),
+					city_text = $("#city").find("option:selected").attr("data-rel"),
+                    county_id = $("#county").find("option:selected").val(),
+					county_text = $("#county").find("option:selected").attr("data-rel"),
+                    address = $("#address").val(),
+					mobile=$("#mobile").val(),
+					email=$("#email").val(),
+					id=$("#id").val();
+                    telphone = $("#telphone").val(); 
+			var param={"consignee":consignee,"province":province_id,"city":city_id,"county":county_id,"location":province_text+" "+city_text+" "+county_text,"address":address,"mobile":mobile,"email":email,"telphone":telphone,"id":id};
+				$.post("{:U('Address/edit')}",param,function(data){ 
+								if(data.status==1){
+									
+									parent.window.location.reload();
+									close_iframe();	
+								}else{
+									layer.msg(data.info, {icon: 2});
+								}	
+				});
+				return false;
+	  });
+	 	
+});
+
+ 
+ 
+</script>

@@ -1,0 +1,28 @@
+<div <if condition="ACTION_NAME eq 'index'">class="col-lg-3" <else />class="col-lg-3 hidden-xs" </if>  style=" padding-left:0px; padding-right:15px;"  > 
+  
+  <div class="widget d_postlist">
+  <h3 class="widget_tit">{:L('ORDER_LIST')}</h3>
+  <ul class="nopic">
+    <li> 
+      	<a href="{:U('User/order')}">{:L('ORDER_INQUIRY')}</a>
+       </li> 
+    </ul>
+</div>
+
+  <div class="widget d_postlist">
+  <h3 class="widget_tit">{:L('MEMBER_CENTER')}</h3>
+  <ul class="nopic">
+    <li> 
+      	<a href="{:U('User/info')}">{:L('MODIFY_PERSONAL_INFORMATION')}</a>
+       </li> 
+       
+        <li> 
+      	<a href="{:U('User/password')}">{:L('MODIFY_PASSWORD')}</a>
+       </li> 
+        <li> 
+      	<a href="{:U('Reg/logout')}">{:L('SIGN_OUT')}</a>
+       </li> 
+    </ul>
+</div>
+
+  </div>

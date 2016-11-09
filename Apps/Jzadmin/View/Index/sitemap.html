@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>sitemap生成</title>
+<meta charset="UTF-8">
+<include file="Common:jscss" />
+</head>
+<body>
+<div class="container-fluid"> <include file="Common:position" />
+  <div id="main" class="main" >
+    <div class="content">
+      <form action="{:U('index')}" method="post" enctype="multipart/form-data" name="form2" id="playList">
+        <input name="id" type="hidden" value="{$info.id}">
+        <table class="insert-tab table table-hover" width="100%" style="font-size:12px">
+          <tbody>
+            <tr>
+              <th width="11%">栏目选择：</th>
+              <td width="89%">
+              	<select multiple="multiple" class="form-control w30" size="15" name="catid[]" title="按住“Ctrl”或“Shift”键可以多选，按住“Ctrl”可取消选择">
+                <volist name="list" id="vo">
+                	  <option value="{$vo.id}">{$vo.fullname}</option>
+                </volist>
+                </select>
+                <div class="help-block">数据的来源,按住“Ctrl”或“Shift”键可以多选+A全选，按住“Ctrl”可取消选择</div></td>
+            </tr>
+            <tr>
+              <th>文件生成类型：</th>
+              <td><input type="radio" name="sitemaptype" value="0" checked="true">
+                &nbsp;百度sitemap&nbsp;&nbsp;
+                <input type="radio" name="sitemaptype" value="1">
+                &nbsp;Google Sitemap</td>
+            </tr>
+            <tr>
+              <th>优先权比值：</th>
+              <td><select name="priority" class="form-control w30">
+                  <option value="1.0">1.0</option>
+                  <option value="0.9">0.9</option>
+                  <option value="0.8">0.8</option>
+                  <option value="0.7">0.7</option>
+                  <option value="0.6">0.6</option>
+                  <option value="0.5">0.5</option>
+                  <option value="0.4">0.4</option>
+                  <option value="0.3">0.3</option>
+                  <option value="0.2">0.2</option>
+                  <option value="0.1">0.1</option>
+                </select></td>
+            </tr>
+            <tr>
+              <th>更新频率：</th>
+              <td><select name="changefreq" class="form-control w30">
+                  <option value="always">经常</option>
+                  <option value="hourly">每小时</option>
+                  <option value="daily" selected="selected">每天</option>
+                  <option value="weekly">每周</option>
+                  <option value="monthly">每月</option>
+                  <option value="yearly">每年</option>
+                </select></td>
+            </tr>
+            <tr>
+              <th></th>
+              <td><input class="btn btn-primary btn6 mr10" id="submit" value="提交" type="submit" >
+                <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button"> <div class="help-block">生成后的文件在根目录:<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/sitemap.xml" target="_blank">http://<?php echo $_SERVER['HTTP_HOST'];?>/sitemap.xml</a></div>
+                </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">    
+$(document).ready(function(){
+ 
+});
+
+</script>
+</body>
+</html>

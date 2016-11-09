@@ -1,0 +1,1 @@
+a:5:{s:11:"/^(cn|en)$/";s:16:"Index/index?l=:1";s:26:"/^([\w^_]+)\/(\d+)_(\d+)$/";s:37:"EmptyUrl/detail?catdir=:1&id=:2&p=:3&";s:20:"/^([\w^_]+)\/(\d+)$/";s:32:"EmptyUrl/detail?catdir=:1&id=:2&";s:19:"/^([\w^_]+)_(\d+)$/";s:31:"EmptyUrl/emptys?catdir=:1&p=:2&";s:13:"/^([\w^_]+)$/";s:26:"EmptyUrl/emptys?catdir=:1&";}

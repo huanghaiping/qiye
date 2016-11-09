@@ -1,0 +1,39 @@
+<include file="Common:header" />
+<div class="success_box">
+<div class="container mt20">
+  <div class="mc success-cont">
+  
+    <div class="success-lcol col-lg-8" style=" padding-left:0px; padding-right:0px;">
+      <div class="success-top">
+        <h3><i class="glyphicon glyphicon-ok"></i>&nbsp;{:L('ADD_CART_LIST')}</h3>
+      </div>
+      <volist name="cartInfo" id="vo">
+      <div class="p-item">
+        <div class="p-img">
+        	<a href="{$vo.url}" target="_blank">
+            <img src="{$vo.product_info.thumb}" width="60" height="60"></a></div>
+        <div class="p-info">
+          <div class="p-name"><a href="{$vo.url}" target="_blank"  title="{$vo.goods_name}">{$vo.goods_name}</a></div>
+          <div class="p-extra"> 
+            <volist name="vo['attr_list']" id="attr">
+            <span class="txt" title="{$attr.value}">{$attr.key}：{$attr.value}</span> 
+            </volist>
+             <span class="txt"> {:L('COMMODITY_QUANTITY')}：{$vo.goods_number|default=1}</span>
+          </div>
+        </div>
+        <div class="clr"></div>
+      </div>
+      </volist>
+    </div>
+    
+    <div class="success-btns col-lg-4" style=" padding-left:0px; padding-right:0px;">
+      <div><a class="btn-tobback btn-viewcart " href="#" onclick="window.history.back();return false;">{:L('RETURN')}</a>
+      <a class="btn-addtocart btn-viewcart " href="{:U('Cart/index')}" id="GotoShoppingCart">{:L('CART_SETTLEMENT')}>></a></div>
+    </div>
+    
+  </div>
+</div>
+</div>
+<!--网页底部--> 
+<include file="Common:footer" /> 
+<!--网页底部 结束--> 

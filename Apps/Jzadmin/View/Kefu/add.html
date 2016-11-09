@@ -1,0 +1,258 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>添加修改支付接口</title>
+<include file="Common:jscss" />
+<style type="text/css">
+.config_class {
+	width:100%;
+	float:left;
+}
+.config_class ul {
+	margin:0px;
+	padding:0px;
+}
+.config_class ul li {
+	width:100%;
+	list-style:none;
+	margin:0px;
+	padding:0px;
+	border-bottom:1px #CCCCCC solid;
+	margin-bottom:10px;
+	float:left;
+	padding-bottom:10px;
+}
+.config_class ul li .param {
+	width:150px;
+	text-align:center;
+	margin-right:15px;
+	float:left;
+}
+.config_class ul li .param input {
+	width:150px
+}
+.config_class ul li .value {
+	width:350px;
+	text-align:center;
+	float:left;
+}
+.config_class ul li .value input {
+	width:350px
+}
+.config_class ul li .remove {
+	float:left;
+	margin-top:10px;
+	margin-left:15px;
+}
+.thumber img{ max-width:71px; max-height:24px;}
+</style>
+</head>
+<body>
+<div class="container-fluid"> <include file="Common:position" />
+  <div id="main" class="main" >
+    <div class="content">
+      <form action="{:U($method)}" method="post" enctype="multipart/form-data" name="form2" id="playList">
+        <input name="id" type="hidden" value="{$info.id}">
+        <table class="insert-tab table table-hover" width="100%" style="font-size:12px">
+          <tbody>
+            <tr>
+              <th width="11%">客服名称：</th>
+              <td width="89%"><input class="common-text required form-control w30" id="name" name="name"  value="{$info.name}" type="text">
+                <div class="help-block">例如：QQ客服</div></td>
+            </tr>
+            <tr>
+              <th>客服类型：</th>
+              <td><select id="typeid" name="typeid" class="form-control w30" >
+                  <volist name="typelist" id="vo"> <option value="{$key}" 
+                    <eq name="info['typeid']" value="$key">selected="selected"</eq>
+                    >{$vo}
+                    </option>
+                  </volist>
+                </select>
+                <div class="help-block">例如：QQ</div></td>
+            </tr>
+            <tr>
+              <th>参数配置：</th>
+              <td><button type="button" class="btn btn-success" id="reset_token"   
+                <empty name="info['pay_config_param']">pay_config_id="1"
+                  <else />
+                  pay_config_id="{$maxid}"</empty>
+                ><i class="glyphicon glyphicon-plus"></i>添加客服
+                </button>
+                <div class="config_class" id="config_class">
+                  <ul>
+                    <li>
+                      <div class="param">&nbsp;</div>
+                      <div class="param">风格(key)</div>
+                       <div class="param">说明(text)</div>
+                      <div  class="value">号码(value)</div>
+                    </li>
+                    <empty name="info['pay_config_param']">
+                      <li id="linode_1">
+                        <div class="param"> 号码1：
+                          <input name="pay_config_id[]" type="hidden" value="1">
+                        </div>
+                        <div class="param">
+                          <select name="pay_config_param_1" id="pay_config_param_1" rid="1" class="common-text required form-control select_change" >
+                          <option value="0">无风格</option>
+                            <volist name="skinlist" id="vo">
+                              <option value="{$vo.id}" thumb="{$vo.thumb}" type="{$vo.type}">{$vo.title}</option>
+                            </volist>
+                          </select>
+                        </div>
+                         <div class="param"> <input class="common-text required form-control w30"  name="pay_config_text_1" type="text"></div>
+                        <div  class="value">
+                          <input class="common-text required form-control w30"  name="pay_config_value_1" type="text">
+                        </div>
+                        <div class="remove"><a href="javascript:removeNode(1)">移除</a></div>
+                        <div class="remove thumber"></div>
+                      </li>
+                      <else />
+                      <volist name="info['pay_config_param']" id="vo">
+                        <li id="linode_{$vo.id}">
+                          <div class="param"> 号码{$vo.id}：
+                            <input name="pay_config_id[]" type="hidden" value="{$vo.id}">
+                          </div>
+                          <div class="param">
+                          
+                           <select name="pay_config_param_{$vo.id}" rid="{$vo.id}" class="common-text required form-control select_change" >
+                          <option value="0">无风格</option>
+                            <volist name="skinlist" id="_vo">
+                              <option value="{$_vo.id}"  thumb="{$_vo.thumb}" type="{$_vo.type}" <eq name="_vo['id']" value="$vo['key']">selected</eq>>{$_vo.title}</option>
+                            </volist>
+                          </select>
+                            
+                          </div>
+                           <div class="param"> <input class="common-text required form-control w30"  name="pay_config_text_{$vo.id}" value="{$vo.text}" type="text"></div>
+                          <div  class="value">
+                            <input class="common-text required form-control w30"  name="pay_config_value_{$vo.id}" value="{$vo.value}" type="text">
+                          </div>
+                          <div class="remove"><a href="javascript:removeNode({$vo.id})">移除</a></div><div class="remove thumber"><img src="__PUBLIC__/images/kefu/{$vo.thumb.thumb}" /></div>
+                        </li>
+                      </volist>
+                    </empty>
+                  </ul>
+                </div></td>
+            </tr>
+            <tr>
+              <th>排序：</th>
+              <td><input class="common-text required form-control w30" id="listorder" name="listorder" size="50" value="{$info.listorder|default=50}" type="text">
+                <div class="help-block">从大到小排序</div></td>
+            </tr>
+            <tr>
+              <th>状态：</th>
+              <td><select name="status" class="form-control w30">
+                  <option value="1" 
+                
+                  <eq name="info['status']" value="1"> selected="selected" </eq>
+                  >开启
+                
+                  </option>
+                  <option value="0"  
+                
+                  <eq name="info['status']" value="0"> selected="selected" </eq>
+                  >关闭
+                
+                  </option>
+                </select></td>
+            </tr>
+            <tr  bgcolor="#FFFFFF"  id="logo" >
+              <th>客服图标： </th>
+              <td colspan="5" style="text-align:left;"><input name="logo_txt" type="text" id="logo_txt" class="form-control w30" value="{$info.logo}" style="float:left;">
+                <input name="logo" type="file">
+                <notempty name="info['logo']">
+                  <div class="page m15 margin_bottom"> <img name="member_face_img" id="member_face_img" src="{$info.logo}" width="128" height="128" alt=""></div>
+                </notempty></td>
+            </tr>
+            <tr>
+              <th>客服描述：</th>
+              <td><textarea name="content" class="common-textarea form-control w30" id="content" >{$info.content|stripslashes}</textarea></td>
+            </tr>
+            <tr>
+              <th></th>
+              <td><input class="btn btn-primary btn6 mr10" id="submit" value="提交" type="submit" >
+                <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button"></td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+<select name="skin_template" id="skin_template" style="display:none">
+ <option value="0">无风格</option>
+  <volist name="skinlist" id="vo">
+    <option value="{$vo.id}" thumb="{$vo.thumb}" type="{$vo.type}">{$vo.title}</option>
+  </volist>
+</select>
+<script type="text/javascript">     
+$(document).ready(function(){	
+	$("#submit").click(function(){
+		var pay_name = $('#pay_name').val();
+		var pay_code = $('#pay_code').val();
+		if(pay_name.length<=0){
+			layer.tips('请输入支付名称', '#pay_name',{tips: [2, '#337ab7']});
+			return false;
+		}
+		if(pay_code.length<=0){
+			layer.tips('请输入支付唯一标识', '#pay_code',{tips: [2, '#337ab7']});
+			return false;
+		}
+		return true;
+	 
+	});
+	
+	$("#reset_token").click(function(){
+		var id=$(this).attr("pay_config_id");
+		var id_plus=parseInt(id)+1;
+		var select_string=$("#skin_template").html();
+		var html=' <li id="linode_'+id_plus+'">\
+                   <div class="param">\
+                   号码'+id_plus+'：\
+                   <input name="pay_config_id[]"  type="hidden" value="'+id_plus+'">\
+                   </div>\
+                    <div class="param">\
+						 <select name="pay_config_param_'+id_plus+'" rid="'+id_plus+'" class="common-text required form-control select_change" >\
+						 '+select_string+'\
+                      </select>\
+                    </div>\
+					<div class="param"> <input class="common-text required form-control w30"  name="pay_config_text_'+id_plus+'" type="text"></div>\
+                    <div  class="value">\
+                      <input class="common-text required form-control w30"  name="pay_config_value_'+id_plus+'" type="text">\
+                    </div>\
+					<div class="remove"><a href="javascript:removeNode('+id_plus+')" >移除</a></div><div class="remove thumber"></div>\
+                  </li>';
+		$("#config_class ul").append(html);
+		$(this).attr("pay_config_id",id_plus);
+	});
+	
+	
+	$(document).on("change",".select_change",function(){
+		var rid=$(this).attr("rid");
+		var thumb=$(this).find("option:selected").attr("thumb");
+		$("#linode_"+rid).find(".thumber").html('<img src="__PUBLIC__/images/kefu/'+thumb+'" />');
+	});
+	
+});
+
+//移除添加的节点
+function removeNode(liid){
+	var li_length=$("#config_class ul li").length;
+	if(li_length<=2){
+		layer.alert("不能删除所有节点");
+		return false;
+	}
+	var obj=$("#linode_"+liid);
+	layer.confirm('确定要移除?移除后不可恢复', {
+			btn: ['确定','取消'] //按钮
+	 }, function(index){
+		obj.remove();
+		layer.close(index);	
+	});
+
+}
+
+</script>
+</body>
+</html>

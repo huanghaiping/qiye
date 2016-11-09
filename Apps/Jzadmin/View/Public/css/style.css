@@ -1,0 +1,50 @@
+@charset "utf-8";
+/* CSS Document */
+body{ font-size:13px; margin:0px; padding:0px; font-family:"微软雅黑";}
+.m15{ margin-top:15px;}
+.margin_bottom{ margin-bottom:15px;}
+.w30{ width:50%; display:inline-block; margin-right:10px; vertical-align:middle;}
+.padding15{ padding-top:15px;}
+
+/*登录页面*/
+.form-signin {	max-width: 360px;	padding: 0px 29px 29px;	margin: 0 auto 0px;	background-color: #fff;	border: 1px solid #e5e5e5;
+	-webkit-border-radius: 5px;	-moz-border-radius: 5px;	border-radius: 5px;	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .05); margin:}
+.form-signin .form-signin-heading, .form-signin .checkbox {	margin-bottom: 10px;}
+.form-signin .form-signin-heading{ border-bottom:#e1e1e1 solid 1px; padding-bottom:15px; margin:25px 0px 25px 0px; font-size:22px;}
+.form-signin input[type="text"], .form-signin input[type="password"] {	font-size: 14px;	height: auto; margin:0 auto;	margin-bottom: 5px;	padding: 12px 9px; width: 92%;}
+.form-signin .form-group{ margin-bottom:10px;   text-align: center;}
+.form-inline{ width:100%;}
+/*登录页面*/
+
+i.glyphicon{ margin-right:5px;}
+.page{ width:100%;  float: left;}
+.position{ background:#f5f5f5; height:35px;overflow:hidden; margin-bottom:15px;line-height: 35px;}
+.page .breadcrumb{ display:inline-block; width:30%;   padding: 0px 0px 0px 5px; margin:0px; overflow:hidden;}
+.lang_class{display:inline-block; width:68%;}
+.lang_class ul { float:right; margin:0px;}
+.lang_class ul li {	float:left;	margin:0 5px;	list-style:none}
+.lang_class ul li a {	font-size:10px;	font-weight:100;	color:#0088cc;}
+.lang_class ul li.current a {	color:#0088cc;	font-weight:bold;	text-decoration:underline;	vertical-align: top;}
+.table th{  background-color: #eaeaea;  vertical-align: middle;}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{ vertical-align:middle;}
+.sort-input {  width: 36px;  text-align: center;  padding: 2px;}
+
+.img_info{ position:relative;  display:none; overflow:hidden; margin-top:5px;}
+.img_info .imgdel,.images_info .imgdel{background: url(/Public/uploadify/img/icons.png)  no-repeat right top;    width: 20px;    height: 20px;    position: absolute;    right:10px;    top: 10px;    cursor: pointer;}
+
+.images_info{ width:100%; float:left; margin-top:5px; position:relative;}
+.images_info .images_list,.images_info .files_list{ float:left; width:180px; height:240px; margin-right:5px; overflow:hidden; position:relative;}
+.images_info .images_list .fancybox,.images_info .files_list .fancybox{width:180px; height:160px;}
+.images_info .images_list input{ margin-bottom:5px;}
+.image_list{ position:relative; width:160px;}
+.image_list img { width:160px; height:160px;}
+
+.file_list{ position:relative; width:160px;}
+.file_list img { width:160px; height:160px;}
+
+.help-block{ display: inline-block;}
+em.error {overflow:hidden;zoom:1;background:url(../images/no.gif) no-repeat 4px;  padding-left: 19px;color:red; line-height:35px;}
+em.success {overflow:hidden;zoom:1;background:url(../images/yes.gif) no-repeat 4px;  padding-left: 19px;color:red; line-height:35px;}
+.btn6 {  width: 120px; margin: 0 5px;}
+.pagination{ margin:1px 0px;}

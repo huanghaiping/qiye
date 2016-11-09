@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>添加修改支付接口</title>
+<include file="Common:jscss" />
+<style type="text/css">
+.config_class{ width:100%; float:left;}
+.config_class ul { margin:0px; padding:0px;}
+.config_class ul li{ width:100%; list-style:none; margin:0px; padding:0px; border-bottom:1px #CCCCCC solid; margin-bottom:10px; float:left; padding-bottom:10px;}
+.config_class ul li .param{ width:150px; text-align:center; margin-right:15px; float:left;}
+.config_class ul li .param input{ width:150px}
+.config_class ul li .value{ width:350px; text-align:center; float:left;}
+.config_class ul li .value input{ width:350px}
+.config_class ul li .remove{ float:left; margin-top:10px; margin-left:15px;}
+</style>
+</head>
+<body>
+<div class="container-fluid">
+<include file="Common:position" />
+<div id="main" class="main" >
+  <div class="content">
+    <form action="{:U($method)}" method="post" enctype="multipart/form-data" name="form2" id="playList">
+      <input name="id" type="hidden" value="{$info.id}">
+      <table class="insert-tab table table-hover" width="100%" style="font-size:12px">
+        <tbody>
+          <tr>
+            <th width="11%">支付名称：</th>
+            <td width="89%"><input class="common-text required form-control w30" id="pay_name" name="pay_name"  value="{$info.pay_name}" type="text">
+              <div class="help-block">例如：支付宝</div></td>
+          </tr>
+          <tr>
+            <th>支付接口唯一标识：</th>
+            <td><input class="common-text required form-control w30" id="pay_code" name="pay_code" value="{$info.pay_code}" type="text">
+              <div class="help-block">例如：alipay</div></td>
+          </tr>
+          <tr>
+            <th>支付手续费：</th>
+            <td><input class="common-text required form-control w30" id="pay_fee" name="pay_fee"  value="{$info.pay_fee|default=0}" type="text">
+              <div class="help-block">例如：1%</div></td>
+          </tr>
+          <tr>
+            <th>支付参数配置：</th>
+            <td><button type="button" class="btn btn-success" id="reset_token"   <empty name="info['pay_config_param']">pay_config_id="1"<else />pay_config_id="{$maxid}"</empty>  ><i class="glyphicon glyphicon-plus"></i>添加参数</button>
+             <div class="help-block">
+             <strong>APPID:</strong>绑定支付的APPID,<strong>APPSECRET:</strong>公众帐号secert,<strong>MCHID:</strong>商户账号,<strong>KEY:</strong>商户支付密钥
+             </div>
+              <div class="config_class" id="config_class">
+                <ul>
+                  <li>
+                 	 <div class="param">&nbsp;</div>
+                    <div class="param">参数名(key)</div>
+                    <div  class="value">参数值(value)</div>
+                  </li>
+                  
+                  <empty name="info['pay_config_param']">
+                  <li id="linode_1">
+                   <div class="param">
+                   参数1：
+                   <input name="pay_config_id[]" type="hidden" value="1">
+                   </div>
+                    <div class="param">
+                      <input class="common-text required form-control w30"   name="pay_config_param_1"  type="text">
+                    </div>
+                    <div  class="value">
+                      <input class="common-text required form-control w30"  name="pay_config_value_1" type="text">
+                    </div>
+                    <div class="remove"><a href="javascript:removeNode(1)">移除</a></div>
+                  </li>
+                  <else />
+                  	<volist name="info['pay_config_param']" id="vo">
+                    	<li id="linode_{$vo.id}">
+                       <div class="param">
+                       参数{$vo.id}：
+                       <input name="pay_config_id[]" type="hidden" value="{$vo.id}">
+                       </div>
+                        <div class="param">
+                          <input class="common-text required form-control w30"   name="pay_config_param_{$vo.id}" value="{$vo.key}"  type="text">
+                        </div>
+                        <div  class="value">
+                          <input class="common-text required form-control w30"  name="pay_config_value_{$vo.id}" value="{$vo.value}" type="text">
+                        </div>
+                        <div class="remove"><a href="javascript:removeNode({$vo.id})">移除</a></div>
+                      </li>
+                    </volist>
+                  </empty>
+                </ul>
+              </div>
+              
+              </td>
+          </tr>
+          <tr>
+            <th>排序：</th>
+            <td><input class="common-text required form-control w30" id="listorder" name="listorder" size="50" value="{$info.listorder|default=50}" type="text">
+              <div class="help-block">从大到小排序</div></td>
+          </tr>
+          <tr>
+            <th>状态：</th>
+            <td><select name="status" class="form-control w30">
+                <option value="1" 
+                <eq name="info['status']" value="1"> selected="selected" </eq>
+                >开启
+                </option>
+                <option value="0"  
+                <eq name="info['status']" value="0"> selected="selected" </eq>
+                >关闭
+                </option>
+              </select></td>
+          </tr>
+          <tr>
+            <th>是否在线：</th>
+            <td><select name="is_online" class="form-control w30">
+                <option value="1" 
+                <eq name="info['is_online']" value="1"> selected="selected" </eq>
+                >是
+                </option>
+                <option value="0"  
+                <eq name="info['is_online']" value="0"> selected="selected" </eq>
+                >否
+                </option>
+              </select></td>
+          </tr>
+          <tr>
+            <th>跳转链接：</th>
+            <td><input class="common-text required form-control w30" id="jumpurl" name="jumpurl" size="50" value="{$info.jumpurl}" type="text">
+              </td>
+          </tr>
+          <tr>
+            <th>支付描述：</th>
+            <td><textarea name="pay_desc" class="common-textarea form-control w30" id="pay_desc" >{$info.pay_desc|stripslashes}</textarea></td>
+          </tr>
+          <tr>
+            <th></th>
+            <td><input class="btn btn-primary btn6 mr10" id="submit" value="提交" type="submit" >
+              <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button"></td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>
+</div>
+<script type="text/javascript">    
+
+$(document).ready(function(){
+	$("#submit").click(function(){
+		var pay_name = $('#pay_name').val();
+		var pay_code = $('#pay_code').val();
+		if(pay_name.length<=0){
+			layer.tips('请输入支付名称', '#pay_name',{tips: [2, '#337ab7']});
+			return false;
+		}
+		if(pay_code.length<=0){
+			layer.tips('请输入支付唯一标识', '#pay_code',{tips: [2, '#337ab7']});
+			return false;
+		}
+		return true;
+	 
+	});
+	
+	$("#reset_token").click(function(){
+		var id=$(this).attr("pay_config_id");
+		var id_plus=parseInt(id)+1;
+		var html=' <li id="linode_'+id_plus+'">\
+                   <div class="param">\
+                   参数'+id_plus+'：\
+                   <input name="pay_config_id[]"  type="hidden" value="'+id_plus+'">\
+                   </div>\
+                    <div class="param">\
+                      <input class="common-text required form-control w30"   name="pay_config_param_'+id_plus+'"  type="text">\
+                    </div>\
+                    <div  class="value">\
+                      <input class="common-text required form-control w30"  name="pay_config_value_'+id_plus+'" type="text">\
+                    </div>\
+					<div class="remove"><a href="javascript:removeNode('+id_plus+')" >移除</a></div>\
+                  </li>';
+		$("#config_class ul").append(html);
+		$(this).attr("pay_config_id",id_plus);
+	});
+	
+});
+
+//移除添加的节点
+function removeNode(liid){
+	var li_length=$("#config_class ul li").length;
+	if(li_length<=2){
+		layer.alert("不能删除所有节点");
+		return false;
+	}
+	var obj=$("#linode_"+liid);
+	layer.confirm('确定要移除?移除后不可恢复', {
+			btn: ['确定','取消'] //按钮
+	 }, function(index){
+		obj.remove();
+		layer.close(index);	
+	});
+
+}
+</script>
+</body>
+</html>

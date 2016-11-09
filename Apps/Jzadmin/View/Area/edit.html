@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<include file="Common:jscss" />
+<style type="text/css">
+body {
+	padding-bottom: 40px;
+}
+.sidebar-nav {
+	padding: 9px 0;
+}
+select {
+	width:100px;
+}
+ @media (max-width: 980px) {
+/* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+	float: none;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+}
+</style>
+</head>
+<body>
+<div class="container-fluid"> 
+<include file="Common:position" />
+<form method='post' id="form1" name="form1" action="{:U('Area/edit')}"  enctype="multipart/form-data" class="form-inline definewidth m10">
+  <table class="table table-bordered table-hover  m10">
+    <tr>
+      <th width="112">上级城市:</th>
+      <td> <label class="label label-default">{$info.parent_id|getAreasName}</label><input type="hidden" name="parent_id" value="{$info.parent_id}"></td>
+    </tr>
+    <tr>
+      <th>城市名称:</th>
+      <td> <input type="text" class="form-control w30" name="area_name" id="area_name" value="{$info.area_name}" /></td>
+    </tr>
+    <tr>
+      <th> 排序值：</th>
+      <td> <input type="text" class="form-control w30" name="listorder" value="{$info.listorder}" /></td>
+    </tr>
+    <tr>
+      <th> 热门城市：</th>
+      <td> <select name="recommend" class="form-control w30">
+                        <option value="0" <eq name="info.recommend" value="0">selected="selected"</eq>>否</option>
+                        <option value="1" <eq name="info.recommend" value="1">selected="selected"</eq>>是</option>
+                        </select></td>
+    </tr>
+    <tr>
+      <th><input type="hidden" name="id" value="{$info.id}"></th>
+      <td><input type="submit" class="btn btn-primary btn6" id="submit" value="保存">
+      
+        <button type="button" class="btn btn6" onclick="history.go(-1)" name="backid" id="backid">返回</button></td>
+    </tr>
+  </table>
+  
+</form>
+
+</div>
+<script type="text/javascript">
+$(function(){
+	$("#submit").click(function(){
+		if($("#area_name").val() == ''){
+			layer.tips('请输入城市名称', '#area_name',{tips: [2, '#337ab7']});
+			return false;
+		}
+	});	
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<include file="Common:header" />
+  
+<div class="container mt20">
+	<div class="checkout-tit"> <span class="tit-txt"> {:L("ORDER_NUMBER")}：{$sn}</span> </div>
+	<div class="affirm_wrap  hand_details clearfix">
+        <div class="title">{:L("PAYMENT_METHOD")}</div>
+        <div class="list-cont">
+          <ul id="payment-list">
+            <volist name="pay_list" id="vo" key="k">
+              <li style="cursor: pointer;">
+                <if condition="empty($pay_type)">
+                <if condition="$k eq 1">
+                  <input type="hidden" id="pay_type" value="{$vo.pay_code}">
+                  <div class="payment-item  item-selected online-payment" payname="{$vo.pay_name}" payid="{$vo.pay_code}">{$vo.pay_name}</div>
+                  <else />
+                  <div class="payment-item  online-payment" payname="{$vo.pay_name}" payid="{$vo.pay_code}">{$vo.pay_name}</div>
+                </if>
+                <else />
+                	<if condition="$pay_type eq $vo['pay_code']">
+                 	<input type="hidden" id="pay_type" value="{$vo.pay_code}">
+                    <div class="payment-item  item-selected online-payment" payname="{$vo.pay_name}" payid="{$vo.pay_code}">{$vo.pay_name}</div>
+                    <else />
+                    <div class="payment-item  online-payment" payname="{$vo.pay_name}" payid="{$vo.pay_code}">{$vo.pay_name}</div>
+                    </if>
+                </if>
+              </li>
+            </volist>
+          </ul>
+        </div>
+      </div>
+         <div class="submit_order_">  
+         <input name="sn" id="sn" type="hidden" value="{$sn}" />
+         <input name="is_wx_pc" id="is_wx_pc" type="hidden" value="0" />
+         <input type="button" class="smit" value="{:L('PAY_IMMEDIATELY')}" id="submit_order"></div>
+</div>
+<div id="popMsgContent" style="font-size:12px; margin:10px 15px; display:none">
+    <div id="C2bBanksBox" class="payment_content_bgwhite" style="display: block; text-align:center;">
+             <div class="showwx">
+	<div><img src="" width="300" height="300" class="qrcode" /></div>
+	<div class="not_pay_icon"><img src="../Public/img/saomao.png" /></div>
+    <div class="pay_icon" style="color: #3ebb2b;font-size: 20px; display:none">
+    	<i class="glyphicon glyphicon-ok"></i>&nbsp;{:L('ORDER_PAYMENT_SUCCESS_JUMP')}
+    </div>
+</div>
+          </div>
+</div>
+
+<include file="Common:layer" /> 
+<script type="text/javascript">
+var order_sn = "{$sn}";
+function is_weixin() {
+	var ua = window.navigator.userAgent.toLowerCase();
+	if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+//调用微信JS api 支付
+function jsApiCall(){
+	WeixinJSBridge.invoke(
+		'getBrandWCPayRequest',
+		<?php if(!empty( $paramApi['url'])){echo $paramApi['url'];}else{echo "{}";} ?>,
+		function(res){
+			//WeixinJSBridge.log(res.err_msg);
+			//alert(res.err_code+res.err_desc+res.err_msg);
+			//如果支付成功
+			if (res.err_msg == 'get_brand_wcpay_request:ok') {
+				//支付成功后跳转的地址
+				alert("{:L('PAYMENT_SUCCESS')}");
+				window.location.href = "{:U('User/order')}";
+			}else if (res.err_msg == 'get_brand_wcpay_request:cancel') {
+				alert("{:L('PLEASE_COMPLETE_POSSIBLE')}");
+				window.location.href = "{:U('User/order')}";
+			}else if (res.err_msg == 'get_brand_wcpay_request:fail') {
+				alert("{:L('PAYMENT_FAILURE')}");
+				window.location.href="{:U('User/order_show',array('order_id'=>$order_id))}";
+			}else {
+				alert("{:L('PAYMENT_FAILURE')}");
+				window.location.href="{:U('User/order_show',array('order_id'=>$order_id))}";
+			}
+		}
+	);
+}
+function callpay(){
+	if (typeof WeixinJSBridge == "undefined"){
+	    if( document.addEventListener ){
+	        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+	    }else if (document.attachEvent){
+	        document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+	        document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+	    }
+	}else{
+	    jsApiCall();
+	}
+}
+//提交支付
+function submit_pay(){	
+	var loading=layer.msg("{:L('IN_THE_FORM_OF_PAYMENT')}", {icon: 16,time:10000});
+	var pay_type=$("#pay_type").val();
+	var sn=$("#sn").val();
+	if(pay_type!='Wx'){
+		var w = window.open();
+	}
+	$.post("{:U('Pay/payment')}",{"sn":sn,"pay_type":pay_type},function(data){ 
+		layer.close(loading);
+			if(data.status==1){
+				if(pay_type=='Wx'&& !is_weixin()){
+					$("#C2bBanksBox").find(".qrcode").attr("src",data.url);
+					$("#is_wx_pc").val(1); //开启支付检测，检测是否支付成功
+					parent.layer.open({
+					  type: 1,
+					  title: "{:L('WECHAT_SCAN_CODE_PAYMENT')}",
+					  closeBtn: 1, //不显示关闭按钮
+					 
+					  area: ['450px', '450px'],
+					  shift: 2,
+					  content: $('#popMsgContent'), //iframe的url，no代表不显示滚动条
+					  cancel :function(e){
+							 parent.layer.confirm("{:L('CONFIRM_TO_CANCEL_WECHAT_PAYMENT')}", {
+							   btn: ["{:L('DETERMINE')}","{:L('CANCEL')}"], //按钮
+		 					   title:"{:L('PROMPT')}"
+							}, function(){
+								  layer.closeAll();
+								   window.location.href="{:U('User/order')}";
+							},
+							function(confirm_index){
+								layer.close(confirm_index); 
+							}
+							);
+							return false;
+					  }
+					  
+					});
+				}else{
+				 	w.location = data.url; 
+				}
+			}else{
+				layer.msg(data.info, {icon: 2});		
+			}
+		});
+}
+
+$(function(){
+	<if condition="!empty($pay_type) and $wx eq '0'">
+		submit_pay();
+	<elseif condition="$is_weixin and $pay_type eq 'Wx'" />
+		 callpay();
+	</if>
+	//选择支付方式
+	$("#payment-list li ").click(function(){
+		var pay_obj=$(this).find(".payment-item");
+		var payid=pay_obj.attr("payid");
+		$("#pay_type").val(payid);
+		pay_obj.addClass("item-selected").parent("li").siblings().find(".payment-item").removeClass("item-selected");		
+	});	
+	$("#submit_order").click(function(){
+		submit_pay();
+	});
+	
+	//定时任务
+	var pay_type=$("#pay_type").val();
+	if(pay_type=='Wx'&& !is_weixin()){
+		window.setInterval("setTimeSn()",2500);
+	}
+});
+
+function setTimeSn(){
+	var sn=$("#sn").val();
+	var is_wx_pc=$("#is_wx_pc").val();
+	if(is_wx_pc==1){
+		var pay_type=$("#pay_type").val();
+		$.post("{:U('Pay/wxorderquery')}",{"sn":sn,"pay_type":pay_type},function(data){
+			if(data.status==1){
+				$("#C2bBanksBox").find(".not_pay_icon").hide();
+				$("#C2bBanksBox").find(".pay_icon").show();
+				var url=data.url;
+				setTimeout("window.location.href='"+url+"';",2000);
+			}
+		});
+	}
+}
+ 
+</script>
+<include file="Common:footer" />

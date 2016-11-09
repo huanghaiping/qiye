@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<include file="Common:jscss" />
+<style type="text/css">
+body {
+	padding-bottom: 40px;
+}
+.sidebar-nav {
+	padding: 9px 0;
+}
+select {
+	width:120px;
+}
+.field label{ margin:0px 8px;}
+ @media (max-width: 980px) {
+/* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+	float: none;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+}
+</style>
+</head>
+<body>
+<include file="Common:position" />
+
+<form class="form-inline definewidth m10" action="{:U('shaixuan')}" method="post">
+<table class="table table-bordered table-hover ">
+	
+	<tr>
+    	<td colspan="2">
+        	用户名称：
+  <input type="text" name="keyword" id="keyword"class="abc input-default" placeholder="输入昵称或邮箱" value="{$keyword}"  style="width:100px;">
+  &nbsp;&nbsp;
+  <select name="limit_num">
+    <option value="">==请选择状态==</option>
+    <option value="0" 
+    <if condition="$limit_num eq '0'">selected</if>
+    >已审核
+    </option>
+    <option value="1" 
+    <if condition="$limit_num eq '1'">selected</if>
+    >已禁用
+    </option>
+  </select>
+  &nbsp;&nbsp;
+  <select name="type">
+    <option value="">==请选择账号类型==</option>
+    <option value="1"  
+    <if condition="$type eq 1"> selected </if>
+    >站速
+    </option>
+    <option value="2" 
+    <if condition="$type eq 2"> selected </if>
+    >腾讯
+    </option>
+    <option value="3" 
+    <if condition="$type eq 3"> selected </if>
+    >新浪
+    </option>
+  </select>
+  &nbsp;&nbsp;
+  <select name="status">
+    <option value="" >==请选择身份==</option>
+    <option value="0" 
+    <if condition="$status eq '0'"> selected</if>
+    >会员
+    </option>
+    <option value="1" 
+    <if condition="$status eq '1'"> selected</if>
+    >教师
+    </option>
+  </select>
+  &nbsp;&nbsp;
+  <select name="level">
+    <option value="" >==请选择等级==</option>
+    <volist name="levellist" id="vo"> <option value="{$vo.sortby}" 
+      <if condition="$vo.sortby eq $level"> selected</if>
+      >{$vo.name}
+      </option>
+    </volist>
+  </select> &nbsp;&nbsp;
+  <select name="flag">
+    <option value="" >==请选择推荐==</option>
+    <option value="1" <if condition="$flag eq '1'"> selected</if>
+  >热门站友 </option>
+    <option value="2" <if condition="$flag eq '2'"> selected</if>
+  >首页推荐战友 </option>
+    <option value="3" <if condition="$flag eq '3'">selected</if>
+  >画廊战友 </option>
+  </select></td>
+    </tr>
+    
+    <tr>
+      <td colspan="2">请选择地区：
+        <select id="province"   name="province" style="width: 120px" class="areas" runat="server" val="city">
+          <option value="">==请选择省市==</option>
+          <volist name="province_list" id="one">
+            <option value="{$one.id}">{$one.area_name}</option>
+          </volist>
+      </select>&nbsp;&nbsp;
+        <select id="city"  name="city" style="width: 120px" runat="server" class="areas" val="county">
+          <option value="">==请选择城市==</option>
+      </select></td>
+    </tr>
+    <tr>
+      <td width="622"><label for="time_field"></label>
+        <select name="time_field" id="time_field">
+        <option value="login_time">登录时间</option>
+          <option value="register_date">注册时间</option>
+          
+        </select>
+        始：<input name="startTime" type="text" value="{$startTime}" onfocus="__Calendar__.show(this, {format:'yyyy-MM-dd HH:mm:ss',sample:'yyyy-MM-dd HH:mm.ss'})" style="width:150px">
+  终：<input name="endTime" type="text" value="{$endTime}" onfocus="__Calendar__.show(this, {format:'yyyy-MM-dd HH:mm:ss',sample:'yyyy-MM-dd HH:mm.ss'})" style="width:150px">
+  
+  <label for="fan" title="勾选后即往相反方向查询,不在这个范围区间时间"><input type="checkbox" name="fan" id="fan"  value="1" <eq name="fan" value="1">checked</eq>>反向查询</label></td>
+      <td width="486"> 
+        <label>
+          <input type="checkbox" name="product_list[]" value="zsw_drawing_picture" id="product_list_0" <eq name="product_row.zsw_drawing_picture" value="zsw_drawing_picture">checked</eq> >
+          零绘本作品</label>
+        
+        <label>
+          <input type="checkbox" name="product_list[]" value="zsw_drawing_file" id="product_list_1" <eq name="product_row.zsw_drawing_file" value="zsw_drawing_file">checked</eq> >
+          零画廊作品</label>
+        
+        <label>
+          <input type="checkbox" name="product_list[]" value="zsw_task_drawing" id="product_list_2" <eq name="product_row.zsw_task_drawing" value="zsw_task_drawing">checked</eq> >
+          零任务作品</label>
+        
+         <label>
+          <input type="checkbox" name="product_list[]" value="zsw_task_report" id="product_list_3" <eq name="product_row.zsw_task_report" value="zsw_task_report">checked</eq> >
+          零参加活动</label>
+        
+      </td>
+    </tr>
+    <tr>
+	  <td colspan="2" class="field">导出字段： 
+    <label>
+      <input type="checkbox" name="fields[]" value="score" id="fields_0" <eq name="fields.score" value="score">checked</eq> >
+      积分</label>
+   
+    <label>
+      <input type="checkbox" name="fields[]" value="gold" id="fields_1" <eq name="fields.score" value="score">checked</eq> >
+      金币</label>
+      
+       <label>
+      <input type="checkbox" name="fields[]" value="limit_num" id="fields_2" <eq name="fields.limit_num" value="limit_num">checked</eq>>
+      会员状态</label>
+       <label>
+      <input type="checkbox" name="fields[]" value="status" id="fields_3" <eq name="fields.status" value="status">checked</eq> >
+      会员身份</label>
+       <label>
+      <input type="checkbox" name="fields[]" value="mobile" id="fields_4" <eq name="fields.mobile" value="mobile">checked</eq> >
+      手机号码</label>
+       <label>
+      <input type="checkbox" name="fields[]" value="qq" id="fields_5" <eq name="fields.qq" value="qq">checked</eq> >
+      qq</label>
+       <label>
+      <input type="checkbox" name="fields[]" value="birthday" id="fields_6" <eq name="fields.birthday" value="score">birthday</eq> >
+      生日</label>
+    <label>
+      <input type="checkbox" name="fields[]" value="gender" id="fields_8" <eq name="fields.gender" value="gender">checked</eq> >
+      性别</label>
+       <input type="checkbox" name="fields[]" value="level" id="fields_9" <eq name="fields.level" value="level">checked</eq> >
+      等级</label>
+      
+     </td>
+    </tr>
+     <tr>
+	  <td colspan="2"> <button type="submit" class="btn btn-primary" name="chaxun">查询</button>&nbsp;&nbsp;<button type="submit" class="btn" name="daochu"   >导出到Excel</button> <if condition="$tongji_count gt 0">&nbsp;&nbsp;总人数：{$tongji_count}</if></td>
+    </tr>
+</table>
+
+  
+</form>
+<table class="table table-bordered table-hover definewidth m10">
+  <thead>
+    <tr>
+      <th> <input name="" class="chooseAll" type="checkbox" title="点击全选"/>
+        &nbsp;用户id &nbsp;
+        <input name="" class="unsetAll" type="checkbox" title="点击反选"/></th>
+      <th>昵称</th>
+       <th>邮箱</th>
+      <th>账号类型</th>
+      <th>登录时间</th>
+      <th>注册时间</th>
+      
+    </tr>
+  </thead>
+  <volist name="userlist" id="vo">
+    <tr id="{$vo.id}">
+      <td><input name="aid[]" type="checkbox" value="{$vo.id}">
+        &nbsp;{$vo.id}</td>
+      <td><a href="/friend/index/uid/{$vo.id}.html" target="_blank">{$vo.nickname}</a></td>
+       <td>{$vo.email}</td>
+      <td>{$vo.type|getUserLoginType}</td>
+      <td>{$vo.login_time|date='Y-m-d H:i',###}</td>
+      <td>{$vo.register_date|date='Y-m-d H:i',###} </td>
+     
+    </tr>
+  </volist>
+  
+  <tr>
+    <td colspan="6"><if condition="$tongji_count gt 0">&nbsp;&nbsp;总人数：{$tongji_count}</if>  
+      </td>
+  </tr>
+ 
+</table>
+</body>
+</html>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/WebCalendar/WebCalendar.js"> </script>
+<script type="text/javascript">
+
+	$(function(){
+		
+		var province='{$province}'; 
+		var city='{$city}';		
+        $("#province option[value='"+province+"']").attr("selected", true); 
+		if(province!=0){ 
+			setTimeout(loadArea(province,'city',city),0);
+				
+		}
+		$(".areas").change(function(){
+            var ajaxurl="__ROOT__/Public/getArea";
+            var areaId=this.value;
+            var areaType=$(this).attr("val");
+            $.post(ajaxurl,{'areaId':areaId},function(data){
+                if(areaType==='city'){
+                   $('#'+areaType).html('<option value="">==请选择城市==</option>');
+                   $('#county').html('<option value="">==请选择镇/区==</option>');
+                }else if(areaType==='county'){
+                   $('#'+areaType).html('<option value="">==请选择镇/区==</option>');
+                }
+                if(areaType!=='null'){
+					$("#county").show();
+                    $.each(data,function(no,items){
+                        $('#'+areaType).append('<option value="'+items.id+'">'+items.area_name+'</option>');
+                    });
+                }
+            });	
+		});
+	});
+function loadArea(areaId,areaType,val) {
+    $.post("__ROOT__/Public/getArea",{'areaId':areaId},function(data){
+        if(areaType=='city'){
+           $('#'+areaType).html('<option value="">==请选择城市==</option>');
+           
+           $('#county').html('<option value="">==请选择镇/区==</option>');
+        }else if(areaType=='county'){
+           $('#'+areaType).html('<option value="">==请选择镇/区==</option>');
+        }
+        if(areaType!='null'){
+            $.each(data,function(no,items){
+                if(items.id===val){
+                    $('#'+areaType).append('<option value="'+items.id+'" selected="selected">'+items.area_name+'</option>');
+                }else{
+                    $('#'+areaType).append('<option value="'+items.id+'">'+items.area_name+'</option>');
+                }
+            });
+			
+        }
+    });
+}
+</script>
