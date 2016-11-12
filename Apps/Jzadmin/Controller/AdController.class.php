@@ -43,7 +43,7 @@ class AdController extends CommonController {
 	 * 	添加广告
 	 * +----------------------------------------------
 	 */
-	public function addAd() {
+	public function addad() {
 		if (IS_POST) {
 			$create_data=$this->model_name->create($this->model_name->createData($_POST));
 			if ($create_data){
@@ -158,7 +158,7 @@ class AdController extends CommonController {
 	 * 	幻灯片广告管理
 	 * +----------------------------------------------
 	 */
-	public function slideList() {
+	public function slidelist() {
 		$typeid = isset( $_GET ['id']) ? intval ( $_GET ['id'] ) : "";
 		if (empty($typeid)){
 			$this->error("非法请求");
@@ -176,7 +176,7 @@ class AdController extends CommonController {
 	 * 	上传幻灯片广告
 	 * +----------------------------------------------
 	 */
-	public function addSlide() {
+	public function addslide() {
 		if (IS_POST) {
 			$slide_model=D("Slide");
 			$create_data=$this->model_name->createDataBySlide($_POST);

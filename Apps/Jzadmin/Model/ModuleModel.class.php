@@ -107,6 +107,7 @@ class ModuleModel extends CommonModel {
 		}
 		$rounte['/^([\w^_]+)\/(\d+)_(\d+)$/']='EmptyUrl/detail?catdir=:1&id=:2&p=:3&';
 		$rounte['/^([\w^_]+)\/(\d+)$/']='EmptyUrl/detail?catdir=:1&id=:2&';
+		$rounte['/^([\w^_]+)_(\d+)_(\d+)$/']='EmptyUrl/emptys?catdir=:1&&id=:2&p=:3&';
 		$rounte['/^([\w^_]+)_(\d+)$/']='EmptyUrl/emptys?catdir=:1&p=:2&';
 		$rounte['/^([\w^_]+)$/']='EmptyUrl/emptys?catdir=:1&';
 

@@ -1,3 +1,0 @@
-<?php
-//000000003600a:4:{s:6:"status";i:1;s:4:"info";s:9:"已授权";s:4:"data";a:19:{s:2:"id";s:1:"1";s:3:"uid";s:1:"1";s:6:"domain";s:12:"www.qiye.com";s:4:"code";s:32:"f10b91b0f72a59a751f5eafb3f0a9b1a";s:8:"sitename";s:6:"百度";s:10:"product_id";s:1:"3";s:12:"product_name";s:29:"易发cms v5.0教学服务版";s:4:"lang";s:6:"中午";s:8:"webowner";s:9:"黄先生";s:6:"lxname";s:9:"黄海平";s:9:"lxcontact";s:11:"13411548727";s:10:"start_time";s:16:"2016-08-05 10:18";s:8:"end_time";s:16:"2017-08-05 10:18";s:6:"status";s:1:"1";s:10:"pay_status";s:1:"1";s:5:"price";s:7:"1000.00";s:5:"ctime";s:10:"1470986020";s:11:"author_name";s:5:"admin";s:9:"deal_time";s:10:"1470986020";}s:10:"is_upgrade";i:1;}
-?>

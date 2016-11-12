@@ -29,9 +29,9 @@
   &nbsp;
   <button name="btn" type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i>查 询</button>
   &nbsp;
-  <button type="button" class="btn btn-success" id="addnew" onClick="javascript:window.location.href='{:U('addAd')}'"><i class=" glyphicon glyphicon-plus"></i>添加广告</button>
+  <button type="button" class="btn btn-success" id="addnew" onClick="javascript:window.location.href='{:U('addad')}'"><i class=" glyphicon glyphicon-plus"></i>添加广告</button>
 </form>
-<form action="{:U('delAll')}" method="post" name="form2" id="playList" class="form-inline definewidth m10" style="margin-left:0px;">
+<form action="{:U('delall')}" method="post" name="form2" id="playList" class="form-inline definewidth m10" style="margin-left:0px;">
   <input name="typename" type="hidden" value="main">
 <table class="table table-bordered table-hover definewidth m10" style="font-size:12px">
  
@@ -60,7 +60,7 @@
             <default />
             未知类型 </switch></td>
         <td align="left">{$vo.ctime|Date='Y-m-d H:i:s',###}</td>
-        <td align="left"><if condition="$vo.typeid eq 5"><a href="{:U('slideList',array('id'=>$vo['id']))}">上传图片</a> | </if>
+        <td align="left"><if condition="$vo.typeid eq 5"><a href="{:U('slidelist',array('id'=>$vo['id']))}">上传图片</a> | </if>
          <!-- <a href="{:U('getCode',array('id'=>$vo['id']))}">获取代码</a> |--> <a href="{:U('edit',array('id'=>$vo['id']))}"> 修改</a> | <a href="javascript:void(0)" link="{:U('del',array('id'=>$vo['id']))}" class="delCate"> 刪除 </a></td>
       </tr>
     </volist>

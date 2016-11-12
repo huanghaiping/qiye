@@ -377,7 +377,7 @@ function createHomeUrl($cat, $id = '', $param = array()) {
 	
 	} else { // PATHINFO模式或者兼容URL模式
 		$showurlrule = '{$catdir}/{$id}.html|{$catdir}/{$id}_{$page}.html';
-		$listurlrule = '{$catdir}/|{$catdir}_{$page}.html';
+		$listurlrule = '{$catdir}/|{$catdir}_{$catid}_{$page}.html';
 		$index = $URL_MODEL == 1 ? __ROOT__ . '/index.php/' : __ROOT__ . '/';
 		$search_array = array ('{$catdir}', '{$catid}', '{$id}', '{$page}' );
 		$replace_array = array ($catdir, $catid, $id, urlencode ( $param [$var_page] ) );

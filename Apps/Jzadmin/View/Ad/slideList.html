@@ -25,12 +25,12 @@
 <body>
   <div class="container-fluid"> 
   <include file="Common:position" />
-<form action="{:U('createSlide')}" method="post" name="form2" id="playList">
+<form action="{:U('createslide')}" method="post" name="form2" id="playList">
   <input name="typeid" type="hidden" value="{$typeid}">
   <input name="typename" type="hidden" value="main">
 <table class="table table-bordered table-hover definewidth m10" style="font-size:12px">
     <tr bgcolor="#FFFFFF">
-      <td colspan="6" align="left"><button type="button" name="button2" onClick="javascript:window.location.href='{:U('addSlide',array('typeid'=>$typeid))}'"  class="btn btn-success" value=""><i class="glyphicon glyphicon-plus"></i>上传图片</button>
+      <td colspan="6" align="left"><button type="button" name="button2" onClick="javascript:window.location.href='{:U('addslide',array('typeid'=>$typeid))}'"  class="btn btn-success" value=""><i class="glyphicon glyphicon-plus"></i>上传图片</button>
       </td>
     </tr>
  
