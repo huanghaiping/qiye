@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<include file="Common:jscss" />
+<style type="text/css">
+body {
+	padding-bottom: 40px;
+}
+select {
+	color:#000;
+}
+.sidebar-nav {
+	padding: 9px 0;
+}
+ @media (max-width: 980px) {
+/* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+	float: none;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+}
+</style>
+</head>
+<body>
+<div class="container-fluid"> 
+<include file="Common:position" />
+<form action="{:U('edit')}" method="post">
+  <input type="hidden" name="id" value="{$info.uid}" />
+  <table class="table table-bordered table-hover definewidth" style="margin-top:20px">
+    <tr>
+      <th width="112">昵称：</th>
+      <td width="723">{$info.nickname} </td>
+      <td width="231" rowspan="5"><if condition="$info['faceurl'] neq ''"><img src="{$info.faceurl}" width="100" height="100" />
+          <else />
+          未上传</if></td>
+    </tr>
+    <tr>
+      <th>密码：</th>
+      <td><input class="form-control w30" name="password" type="password" size="40" value="{$info.title}" />
+        不修改留空</td>
+    </tr>
+    <tr>
+      <th>邮箱：</th>
+      <td>{$info.email} &nbsp;
+        <if condition="$info['email'] eq 1">[已验证]
+          <else />
+          [<span style="color:#FF0000">未验证</span>]</if></td>
+    </tr>
+    <tr>
+      <th>状态：</th>
+      <td><select name="status"  class="form-control" style="width:120px;">
+          <option value="1"   
+          <if condition="$info.status eq 1">selected </if>
+          >已禁用
+          </option>
+          <option value="0"  
+          <if condition="$info.status eq 0">selected </if>
+          >已审核
+          </option>
+        </select></td>
+    </tr>
+  <!--  <tr>
+      <th>积分：</th>
+      <td><input class="input" name="score" type="text" size="40" value="{$info.score}" /></td>
+    </tr>
+    <tr>
+      <th>金币：</th>
+      <td colspan="2"><input class="input" name="gold" type="text" size="40" value="{$info.gold}" /></td>
+    </tr>
+  -->
+    
+        
+    <tr>
+      <th>签名：</th>
+      <td colspan="2">{$info.sign}</td>
+    </tr>
+    <tr>
+      <th>手机号码：</th>
+      <td colspan="2">{$info.mobile}</td>
+    </tr>
+   <!--  <tr>
+      <th>qq：</th>
+      <td colspan="2">{$info.mobile}</td>
+    </tr>
+    <tr>
+      <th>生日：</th>
+      <td colspan="2">{$info.qq}</td>
+    </tr>
+   <tr>
+      <th>新浪微博：</th>
+      <td colspan="2">{$info.weibourl}</td>
+    </tr>
+    <tr>
+      <th>使用软件版本号：</th>
+      <td colspan="2">{$info.app_id}</td>
+    </tr>-->
+    <tr>
+      <th>性别：</th>
+      <td colspan="2"><if condition="$info['gender'] eq m">男
+          <else />
+          女</if></td>
+    </tr>
+ 
+    <tr>
+      <th>地区：</th>
+      <td colspan="2">  <volist name="area_result" id="vo">
+                	{$vo.area_name}.
+                </volist></td>
+    </tr>
+    <tr>
+      <th>注册时间：</th>
+      <td colspan="2">{$info.reg_time|date="Y-m-d H:i:s",###}</td>
+    </tr>
+  
+   
+    <tr>
+      <th>最后登录时间：</th>
+      <td colspan="2">{$info.login_time|date="Y-m-d H:i:s",###}</td>
+    </tr>
+    <tr>
+      <th>最后修改时间：</th>
+      <td colspan="2">{$info.update_time|date="Y-m-d H:i:s",###}</td>
+    </tr>
+    <tr>
+      <td class="tableleft"></td>
+      <td colspan="2"><button type="submit" class="btn btn-primary btn6" > 保存 </button>
+        &nbsp;&nbsp;
+       <button type="button" class="btn btn6" onclick="history.go(-1)" name="backid" id="backid">返回</button></td>
+    </tr>
+  </table>
+</form>
+</div>
+</body>
+</html>
+<script>
+    $(function () {       
+		$('#backid').click(function(){
+				window.location.href="{:U('index')}";
+		 });
+
+    });
+</script>

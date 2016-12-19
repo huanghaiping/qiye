@@ -1,0 +1,40 @@
+<include file="Public/header" />
+
+<div class="navbar navbar-inverse">
+            <div class="navbar-inner">
+                <div class="container">
+                    <div class="nav-collapse">
+                    	<p class="install_logo"><span>{$sys_name}</span></p>
+                    	<ul id="step" class="nav">
+                    		       <li class="done"><a href="javascript:;"><span>&nbsp;&nbsp;</span>安装协议</a></li>
+    <li class="done"><a href="javascript:;"><span>&nbsp;&nbsp;</span>环境检测</a></li>
+    <li  class="done"><a href="javascript:;"><span>&nbsp;&nbsp;</span>创建数据库</a></li>
+    <li class="done"><a href="javascript:;"><span>&nbsp;&nbsp;</span><eq name="Think.session.update" value="1">升级<else/>安装</eq></a></li>
+    <li class="done"><a href="javascript:;"><span>&nbsp;&nbsp;</span>完成</a></li>
+                    	</ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+ 
+ <div class="jumbotron masthead">
+            <div class="container">
+    <p><center><eq name="Think.session.update" value="1">升级<else/>安装</eq>完成！</center></p>
+	<present name="info">
+	{$info}
+	</present>
+</div>
+</div>
+
+
+ <footer class="footer">
+            <div class="container">
+                <div>
+    <a class="btn btn-primary btn-large" href="/index.php?s=/jzadmin">登录后台</a>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <a class="btn btn-success btn-large" href="/index.php">访问首页</a>
+   </div>
+            </div>
+        </footer>
+        <include file="Public:footer" />

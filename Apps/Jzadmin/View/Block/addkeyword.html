@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>添加、编辑碎片-后台管理</title>
+<include file="Common:jscss" />
+<include file="Common:ueditor" />
+</head>
+<body>
+<div class="container-fluid"> 
+ <include file="Common:position" />
+<div id="Right">
+  
+  <form  class="definewidth m10"  action="{:U($method)}" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="{$info.id}" />
+    <table class="table table-bordered table-hover  m10">
+      <tr>
+        <th width="120">关键词名称：</th>
+        <td><input id="keyword" type="text" class="form-control w30" style="width: 600px;" name="keyword" value="{$info.keyword}"/>
+         </td>
+      </tr>
+      <tr>
+        <th width="100">搜索次数：</th>
+        <td><input id="num" type="text" class="form-control w30" style="width: 600px;" name="num" value="{$info.num|default=0}"/>
+         </td>
+      </tr>        
+     <tr>
+        <th width="100">跳转链接：</th>
+        <td><input id="jumpurl" type="text" class="form-control w30" style="width: 600px;" name="jumpurl" value="{$info.jumpurl}"/>
+         </td>
+      </tr>   
+       <tr>
+        <th></th>
+        <td>  <div class="m10" style="margin-bottom:20px;">
+    <button class="btn btn-primary submit btn6">保存</button>&nbsp;&nbsp; 
+    <button type="button" class="btn btn6" onclick="history.go(-1)" name="backid" id="backid">返回</button>
+  </div></td>
+      </tr>
+    </table>
+   
+  </form>
+ 
+</div>
+</div>
+<script type="text/javascript">
+$(function(){ 
+	$(".submit").click(function(){
+		if($("#keyword").val()==""){
+			layer.tips('关键词名称不能为空', '#keyword',{tips: [2, '#337ab7']});
+			return false;
+		}
+	});
+});
+</script>
+</body>
+</html>

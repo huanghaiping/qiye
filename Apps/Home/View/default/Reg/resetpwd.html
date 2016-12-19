@@ -1,0 +1,59 @@
+<include file="Common:header" />
+<div class="box">
+		<div class="login-box">
+			<div class="login-title text-center">
+				<h1><small>{:L('RESET_PASSWORD')}</small></h1>
+			</div>
+			<div class="login-content">
+			<div class="form">
+			 <form action="{:U('saveRestPwd')}" method="post">
+         <input name="userid" type="hidden" value="{$userid}" />
+				<div class="form-group">
+					<div class="col-xs-12  ">
+						<div class="input-group">
+							<span class="input-group-addon">{:L('NEW_LOGIN_PASSWORD')}:</span>
+                              <input name="password" id="password" type="password" placeholder="{:L('NEW_LOGIN_PASSWORD')}" class="form-control"   >
+						</div>
+					</div>
+				</div>
+				 <div class="form-group">
+					<div class="col-xs-12  ">
+						<div class="input-group">
+							<span class="input-group-addon">{:L('CONFIRM_PASSWORD')}:</span>
+                               <input name="re_password" id="re_password" type="password" placeholder="{:L('CONFIRM_PASSWORD')}" style="vertical-align: middle;" class="form-control" >
+						</div>
+					</div>
+				</div>
+				<div class="form-group form-actions">
+					<div class="col-xs-4 col-xs-offset-4 ">
+						<button type="submit" id="reset_pwd" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-off"></span> {:L('SUBMIT')}</button>
+					</div>
+				</div>
+				 
+			</form>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<include file="Common:layer" /> 
+<script type="text/javascript">
+$(function(){
+	$("#reset_pwd").click(function(){
+		var password=$("#password").val();
+		var re_password=$("#re_password").val();
+		if(password.length<=0){
+			layer.alert("{:L('PLEASE_INPUT_A_PASSWORD')}");
+			$("#password").focus();
+			return false;	
+		 }
+		 if(password!=re_password){
+			layer.alert("{:L('CONFIRM_PASSWORD_ERROR')}");
+			$("#re_password").focus();
+			return false;	 
+		}
+		return true;
+	});	
+});
+</script>
+<include file="Common:footer" /> 

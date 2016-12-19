@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>添加广告</title>
+<include file="Common:jscss" />
+  <style type="text/css">
+  .iptxt{ width:300px; }
+  .iptxt1 {width:300px; }
+  </style>
+  <script type="text/javascript">
+   function ShowHid(typeid){
+	   var typeid=typeid.value;
+	   var uploadurl=document.getElementById("uploadurl");
+	   var jumpurl=document.getElementById("jumpurl");
+	   var normbody=document.getElementById("normbody");
+	   var flashshow=document.getElementById("flashshow");
+	   flashshow.style.display="none";
+	   switch(typeid){
+		case "4"  :   normbody.style.display="none";jumpurl.style.display="none";uploadurl.style.display="none"; flashshow.style.display=""; break;
+		  case "3"  :   normbody.style.display="none";jumpurl.style.display="";uploadurl.style.display=""; break;
+		  case "1"  :   normbody.style.display="";jumpurl.style.display="none";uploadurl.style.display="none";break;
+		  case "2"  :   normbody.style.display="";jumpurl.style.display="";uploadurl.style.display="none"; break;
+		  case "5" : uploadurl.style.display="none";jumpurl.style.display="none";normbody.style.display="none";flashshow.style.display="none";
+		}
+	   
+   }
+  </script>
+ </head>
+ <body>
+ <div class="container-fluid"> 
+ <include file="Common:position" />
+ <div id="main" class="main" >
+<div class="content">
+<form action="{:U('addAd')}" method="post" enctype="multipart/form-data" name="form2" id="playList">
+<table class="table table-bordered table-hover definewidth m10" style="font-size:12px">
+  <tr bgcolor="#FFFFFF">
+    <th width="100"> 广告位标识： </th>
+    <td colspan="5"  class="tLeft"><input name="adid" type="text" id="adid"  class="form-control w30">
+<div class="help-block"> （使用英文或数字表示的简洁标识）</div> </td>
+    </tr>
+   <tr  bgcolor="#FFFFFF"> 
+
+          <th> 广告位别名： </th>
+
+          <td colspan="5" style="text-align:left;"><span class="tLeft">
+            <input name="adname" type="text" id="adname"  class="form-control w30">
+          </span><div class="help-block">（别名是上面标识的解释）</div></td>
+
+        </tr>
+   <tr  bgcolor="#FFFFFF">
+     <th>广告的标题</th>
+     <td colspan="5" style="text-align:left;"><span class="tLeft">
+       <input name="title" type="text" id="title"  class="form-control w30">
+     </span></td>
+   </tr>
+ 
+   <tr  bgcolor="#FFFFFF">
+     <th>广告的类型：</th>
+     <td colspan="5" style="text-align:left;"><label for="topid"></label>
+       <select name="typeid" id="typeid" onChange="ShowHid(this)"  class="form-control w30">
+         <option value="1">代码</option>
+         <option value="2">文字</option>
+         <option value="3">图片</option>
+         <option value="4">flash</option>
+           <option value="5">幻灯片</option>
+       </select></td>
+   </tr>
+   <tr  bgcolor="#FFFFFF" id="normbody" style="display:" >
+     <th>广告的内容：</th>
+     <td colspan="5" style="text-align:left;"><textarea name="normbody"  class="form-control" style="width:680px; height:300px;"></textarea></td>
+   </tr>
+   <tr  bgcolor="#FFFFFF" id="uploadurl" style="display:none">
+     <th>图片上传：</th>
+     <td colspan="5" style="text-align:left;"><label for="imgurl"></label>
+      <input name="imgurl_txt" type="text" class="form-control w30" style="float:left;"> <input type="file" name="imgurl" id="imgurl">      
+      <div class="page" style=" margin:15px 0px 0px 0px">
+        <div style="float:left; margin-right:15px"><label style="float:left; margin-top:7px;">宽度:</label> <input type="text" name="imgwidth" id="imgwidth" class="form-control" style=" width:100px;"></div>  
+       <div  style="float:left; margin-right:15px"><label style="float:left; margin-top:7px">高度：</label><input type="text" name="imgheight" id="imgheight" style=" width:100px;" class="form-control"></div>
+       <div  style="float:left; margin-right:15px;margin-top:7px"><input name="istitle" type="checkbox" value="1">是否显示标题</div>
+       </div>
+       </td>
+   </tr>
+   <tr  bgcolor="#FFFFFF" id="jumpurl"  style="display:none">
+     <th>跳转的url</th>
+     <td colspan="5" style="text-align:left;"><span class="tLeft">
+       <input name="url" type="text" id="url" class="form-control w30">
+     </span></td>
+   </tr>
+   <tr  bgcolor="#FFFFFF" id="flashshow" style="display:none">
+     <th><strong>flash链接</strong></th>
+     <td width="300" style="text-align:left;"><span class="tLeft">
+       <input name="flashurl" type="text" id="flashurl" class="form-control">
+     </span></td>
+     <td width="37" style="text-align:left;">宽度</td>
+     <td width="100" style="text-align:left;"><label for="flashwidth"></label>
+       <input type="text" name="flashwidth" id="flashwidth" class="form-control"></td>
+     <td width="67" style="text-align:left;">高度：</td>
+     <td width="448" style="text-align:left;"><input type="text" name="flashheight" id="flashheight" class="form-control w30"></td>
+   </tr>
+<tr bgcolor="#FFFFFF">
+  <td  class="tLeft">&nbsp;</td>
+  <td colspan="5"  class="tLeft"><input type="submit" name="button" id="button" class="btn btn-primary btn6" value="保存">
+  <button type="button" class="btn btn6" onclick="history.go(-1)" name="backid" id="backid">返回</button>
+  </td>
+</tr>
+</table>
+</form>
+</div>
+</div>
+
+</div>
+<script type="text/javascript">
+$(function(){
+	$("#button").click(function(){
+		var adid = $('#adid').val();
+		var adname = $('#adname').val();
+		if(adid == ''){
+			layer.tips('请输入广告位标识', '#adid',{tips: [2, '#337ab7']});
+			return false;
+		}
+		if(adname == ''){
+			layer.tips('请输入广告的别名', '#adname',{tips: [2, '#337ab7']});
+			return false;
+		}
+		return true;
+	});	
+})
+</script>
+ </body>
+</html>

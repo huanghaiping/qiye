@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<include file="Common:jscss" />
+<style type="text/css">
+body {
+	padding-bottom: 40px;
+}
+select {
+	color:#000;
+}
+.sidebar-nav {
+	padding: 9px 0;
+}
+ @media (max-width: 980px) {
+/* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+	float: none;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+}
+</style>
+</head>
+<body>
+<div class="container-fluid"> 
+<include file="Common:position" />
+ <div class="user_content">
+      <div class="breadcrumbs">订单状态:<eq name="order_info['order_status']" value="0">
+                    		<eq name="order_info['pay_status']" value="0">
+                            	<b>等待付款</b>
+                            <else />
+                            	<b>已付款</b>
+                            <notempty name="order_info['pay_name']"><span  style="color:#aaa">({$order_info.pay_name})</span></notempty>
+                             </eq>
+                     <else />
+                     	<span style="color:#aaa">已取消</span> 
+                     </eq>
+      </div>
+      	<div class="user_info">
+       	<div class="col-1 ">
+          <h5 class="title" style="font-size:14px"><b>商品信息</b></h5>
+
+            <table widtd="100%" cellspacing="0" class="table table-bordered table-hover definewidth m10">
+              <tbody>
+                <tr>
+                  <td>商品编号</td>
+                  <td>商品名称</td>
+                  <td>最新价格</td>
+                  <td>商品数量</td>
+                  <td>操作</td>
+                </tr>
+                <volist name="shop_list" id="vo">
+                <tr>
+                  <td widtd="120">{$vo.goods_id}</td>
+                  <td><a href="{$vo.url}" style=" color:#005ea7" target="_blank">{$vo.goods_name}</a></td>
+                  <td style="color:#e4393c; font-weight:bold"><if condition="$vo['promotion_price'] gt 0">￥{$vo.promotion_price}<else />￥{$vo.goods_price}</if></td>
+                  <td>{$vo.goods_number}</td>
+                  <td><a href="{$vo.url}" class="btn  btn-default"  target="_blank">查看详情</a></td>
+                </tr>
+                </volist>
+              </tbody>
+            </table>
+   
+        </div>
+        <div class="col-1 ">
+          <h5 class="title" style="font-size:14px"><b>结算信息</b></h5>
+
+            <table widtd="100%" cellspacing="0" class="table table-bordered table-hover definewidth m10">
+              <tbody>
+                <tr>
+                   <td width="16%">商品总额</td>
+                  <td width="90%">
+                  	<span style="font-weight:bold; color: #e4393c; float:left; padding:10px 0px;">￥{$order_info.order_amount}元</span>
+                    <div class="order_show_total">
+                    <div class="pay" style="float:right">
+                    	 <eq name="order_info['order_status']" value="0">
+                         	<eq name="order_info['pay_status']" value="0">
+                  			<a href="{:U('pay',array('sn'=>$order_info['order_sn']))}" class="pay_now btn  btn-default">立即付款 </a>
+                             
+                            </eq> 
+                          </eq>
+                    </div>
+                    </div>
+                    </td>
+                </tr>
+                 
+              </tbody>
+            </table>
+   
+        </div>
+        <div class="col-1 ">
+          <h5 class="title" style="font-size:14px"><b>订单信息</b></h5>
+
+            <table widtd="100%" cellspacing="0" class="table table-bordered table-hover definewidth m10" style="width:100%">
+              <tbody>
+                <tr>
+                  <td width="210">订单编号</td>
+                  <td width="1107">{$order_info.order_sn}</td>
+                </tr>
+                
+                <tr>
+                  <td>支付方式</td>
+                  <td>{$order_info.pay_name}</td>
+                  </tr>
+                  <tr>
+                  <td>配送方式</td>
+                  <td>{$order_info.order_sn}</td>
+                  </tr>
+                  <tr>
+                  <td>下单时间</td>
+                  <td>{$order_info.add_time|getTimeInfo}</td>
+                  </tr>
+                  <tr>
+                  <td>取消时间</td>
+                  <td><notempty name="order_info['cancel_time']">{$order_info.cancel_time|getTimeInfo}</notempty></td>
+                  </tr><tr>
+                  <td>取消原因</td>
+                  <td>{$order_info.reason}</td>
+                  </tr>
+                
+              </tbody>
+            </table>
+   
+        </div>
+        <div class="col-1 ">
+          <h5 class="title" style="font-size:14px"><b>收货人信息</b></h5>
+
+            <table widtd="100%" cellspacing="0" class="table table-bordered table-hover definewidth m10">
+                <tbody>
+                <tr>
+                  <td width="210">收货人姓名</td>
+                  <td width="1107">{$order_info.consignee}</td>
+                </tr>
+                
+                <tr>
+                  <td>地址</td>
+                  <td>{$order_info.location} {$order_info.address}</td>
+                  </tr>
+                  <tr>
+                  <td>固定电话</td>
+                  <td><notempty name="order_info['mobile']">手机号码:{$order_info.mobile}<else />{$order_info.tel}</notempty></td>
+                  </tr>
+                  <tr>
+                  <td>电子邮件</td>
+                  <td>{$order_info.email}</td>
+                  </tr>
+                  
+              </tbody>
+            </table>
+   
+        </div>
+        <div class="col-1 ">
+          <h5 class="title" style="font-size:14px"><b>订单备注</b></h5>
+
+            <table widtd="100%" cellspacing="0" class="table table-bordered table-hover definewidth m10">
+              <tbody>
+                <tr>
+                  
+                  <td><notempty name="order_info['order_mark']">{$order_info.order_mark}<else />无</notempty></td>
+                </tr>
+               
+              </tbody>
+            </table>
+   
+        </div>
+        
+        </div>
+    </div>
+</div>
+</body>
+</html>
+ 

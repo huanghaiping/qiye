@@ -1,0 +1,178 @@
+<include file="Common:header" />
+<style type="text/css">
+td{ font-size:12px;}
+</style>
+<div class="container mt20">
+  <div class="breadcrumb" style="background:none">
+    <div class="wz"> {:L('CATPOS')}：<a href="__ROOT__/">{:L('HOME')}</a> &gt; <a href="{:U('User/index')}">{:L('MEMBER_CENTER')}</a> &gt;{:L('ORDER_DETAILS')} </div>
+  </div>
+  <include file="User:left" />
+  <div class="col-lg-9" style="padding-left:0; padding-right:0;">
+    <div class="user_content">
+      <div class="breadcrumbs">{:L('ORDER_STATUS')}:<eq name="order_info['order_status']" value="0">
+                    		<eq name="order_info['pay_status']" value="0">
+                            	<b>{:L('WAIT_FOR_PAYMENT')}</b>
+                            <else />
+                            	<b>{:L('ALREADY_PAID')}</b>
+                            <notempty name="order_info['pay_name']"><span  style="color:#aaa">({$order_info.pay_name})</span></notempty>
+                             </eq>
+                     <else />
+                     	<span style="color:#aaa">{:L('HAS_BEEN_CANCELED')}</span> 
+                     </eq>
+      </div>
+      	<div class="user_info">
+       	<div class="col-1 ">
+          <h5 class="title" style="font-size:14px"><b>{:L('COMMODITY_INFORMATION')}</b></h5>
+
+            <table widtd="100%" cellspacing="0" class="table table-bordered table-hover definewidth m10">
+              <tbody>
+                <tr>
+                  <td>{:L('COMMODITY_NUMBER')}</td>
+                  <td>{:L('COMMODITY_NAME')}</td>
+                  <td>{:L('LATEST_PRICE')}</td>
+                  <td>{:L('COMMODITY_QUANTITY')}</td>
+                  <td>{:L('OPERATION')}</td>
+                </tr>
+                <volist name="shop_list" id="vo">
+                <tr>
+                  <td widtd="120">{$vo.goods_id}</td>
+                  <td><a href="{$vo.url}" style=" color:#005ea7" target="_blank">{$vo.goods_name}</a></td>
+                  <td style="color:#e4393c; font-weight:bold"><if condition="$vo['promotion_price'] gt 0">￥{$vo.promotion_price}<else />￥{$vo.goods_price}</if></td>
+                  <td>{$vo.goods_number}</td>
+                  <td><a href="{:U('Cart/add',array('id'=>$vo['goods_id'],'cid'=>$vo['product_info']['catid'],'count'=>$vo['goods_number']))}" class="btn  btn-default">{:L('ADD_CART')}</a></td>
+                </tr>
+                </volist>
+              </tbody>
+            </table>
+   
+        </div>
+        <div class="col-1 ">
+          <h5 class="title" style="font-size:14px"><b>{:L('SETTLEMENT_INFORMATION')}</b></h5>
+
+            <table widtd="100%" cellspacing="0" class="table table-bordered table-hover definewidth m10">
+              <tbody>
+                <tr>
+                   <td width="16%">{:L('TOTAL_COMMODITY')}</td>
+                  <td width="90%">
+                  	<span style="font-weight:bold; color: #e4393c; float:left; padding:10px 0px;">￥{$order_info.order_amount}{:L('DOLLAR')}</span>
+                    <div class="order_show_total">
+                    <div class="pay">
+                    	 <eq name="order_info['order_status']" value="0">
+                         	<eq name="order_info['pay_status']" value="0">
+                  			<a href="{:U('Pay/payment',array('sn'=>$order_info['order_sn']))}" class="pay_now">{:L('IMMEDIATE_PAYMENT')} </a><a  href="javascript:void(0)" link="{:U('Pay/cancel',array('sn'=>$vo['order_sn']))}" class="cancel_order">{:L('CANCELLATION_ORDER')} </a>
+                             
+                            </eq>
+                          <else />
+                          <a href="{:U('Cart/add',array('sn'=>$order_info['order_sn']))}" class="pay_now">{:L('BUY_IMMEDIATELY')} </a>
+                          </eq>
+                    </div>
+                    </div>
+                    </td>
+                </tr>
+                 
+              </tbody>
+            </table>
+   
+        </div>
+        <div class="col-1 ">
+          <h5 class="title" style="font-size:14px"><b>{:L('ORDER_DETAILS')}</b></h5>
+
+            <table widtd="100%" cellspacing="0" class="table table-bordered table-hover definewidth m10" style="width:100%">
+              <tbody>
+                <tr>
+                  <td width="210">{:L('ORDER_NUMBER')}</td>
+                  <td width="1107">{$order_info.order_sn}</td>
+                </tr>
+                
+                <tr>
+                  <td>{:L('PAYMENT_METHOD')}</td>
+                  <td>{$order_info.pay_name}</td>
+                  </tr>
+                 
+                  <tr>
+                  <td>{:L('ORDER_TIME')}</td>
+                  <td>{$order_info.add_time|getTimeInfo}</td>
+                  </tr>
+                  <notempty name="order_info['cancel_time']">
+                  <tr>
+                  <td>{:L('CANCELLATION_TIME')}</td>
+                  <td>{$order_info.cancel_time|getTimeInfo}</td>
+                  </tr>
+                  </notempty>
+                  <tr>
+                  <td>{:L('CANCEL_REASON')}</td>
+                  <td>{$order_info.reason}</td>
+                  </tr>
+                
+              </tbody>
+            </table>
+   
+        </div>
+        <div class="col-1 ">
+          <h5 class="title" style="font-size:14px"><b>{:L('CONSIGNEE')}</b></h5>
+
+            <table widtd="100%" cellspacing="0" class="table table-bordered table-hover definewidth m10">
+                <tbody>
+                <tr>
+                  <td width="210">{:L('CONSIGNEE_NAME')}</td>
+                  <td width="1107">{$order_info.consignee}</td>
+                </tr>
+                
+                <tr>
+                  <td>{:L('ADDRESS')}</td>
+                  <td>{$order_info.location} {$order_info.address}</td>
+                  </tr>
+                  <tr>
+                  <td>{:L('FIXED_TELEPHONE')}</td>
+                  <td><notempty name="order_info['mobile']">{:L('PHONE_NUMBER')}:{$order_info.mobile|mobile_replace}<else />{$order_info.tel}</notempty></td>
+                  </tr>
+                  <tr>
+                  <td>{:L('EMAIL')}</td>
+                  <td>{$order_info.email}</td>
+                  </tr>
+                  
+              </tbody>
+            </table>
+   
+        </div>
+        <div class="col-1 ">
+          <h5 class="title" style="font-size:14px"><b>{:L('ORDER_NOTE')}</b></h5>
+
+            <table widtd="100%" cellspacing="0" class="table table-bordered table-hover definewidth m10">
+              <tbody>
+                <tr>
+                  
+                  <td><notempty name="order_info['order_mark']">{$order_info.order_mark}<else />无</notempty></td>
+                </tr>
+               
+              </tbody>
+            </table>
+   
+        </div>
+        
+        </div>
+    </div>
+  </div>
+</div>
+<include file="Common:layer" />
+<script type="text/javascript">
+$(function(){
+		$(".cancel_order").click(function(){
+			var url = $(this).attr("link");
+			layer.confirm("{:L('SURE_CANCEL_ORDER')}", {
+			   btn: ["{:L('DETERMINE')}","{:L('CANCEL')}"], //按钮
+		 	   title:"{:L('PROMPT')}"
+			}, function(){
+				$.get(url,function(data){
+					if(data.status==1){
+					  layer.msg(data.info, {icon: 1});
+					}else{
+					  layer.msg(data.info, {icon: 2});
+					}
+					setTimeout("window.location.reload();",2000);
+				});
+			}); 
+		});		
+})
+</script>
+<include file="Common:footer" />

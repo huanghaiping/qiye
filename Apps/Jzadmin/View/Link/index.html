@@ -1,0 +1,109 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>友情链接管理列表</title>
+<base target="_self">
+<include file="Common:jscss" />
+<style type="text/css">
+.fenye li {
+	float:left;
+	margin:10px 5px;
+}
+.listnav {
+	margin:0px;
+	padding:0px;
+	height:150px;
+	overflow:auto
+}
+.listnav li {
+	width:50%;
+	float:left;
+}
+</style>
+</head>
+<body>
+<div class="container-fluid"> 
+<include file="Common:position" />
+<form action="{:U('index')}" method="post" name="form" class="form-inline definewidth m10">
+  <input name="title" type="text" style="width:250px"  value="{$keyword}" placeholder="名称"  class="form-control w30">
+  &nbsp;
+  <button name="btn" type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i>查 询</button>
+  &nbsp;
+  <button type="button" class="btn btn-success" id="addnew" onClick="javascript:window.location.href='{:U('add')}'"><i class="glyphicon glyphicon-plus"></i>添加友链</button>
+    <button type="button" class="btn btn-success" id="addnew" onClick="javascript:window.location.href='{:U('addcommon')}'"><i class="glyphicon glyphicon-plus"></i>获取营销链接</button>
+</form>
+<form action="{:U('delAll')}" method="post" name="form2" id="playList" class="form-inline definewidth m10" style="margin-left:0px;">
+  <input name="typename" type="hidden" value="main">
+<table class="table table-bordered table-hover definewidth m10" style="font-size:12px">
+ 
+    <tr>
+      <th>选择</th>
+      <th>网站名称</th>
+      <th>网站logo</th>
+      <th>链接类型</th>
+      <th>排序</th>
+      <th>状态</th>
+ 
+      <th>添加时间</th>
+      <th>操作</th>
+    </tr>
+    <volist name="list" id="vo" key="k">
+      <tr id="{$vo.id}">
+        <td align="center"><input name="id[]"  class="id" type="checkbox"  value="{$vo.id}">
+          {$vo.id}</td>
+        <td align="left"><a href="{$vo.siteurl}" target="_blank">{$vo.name}</a></td>
+        <td align="center"><notempty name="vo['logo']"><img name="" src="{$vo.logo}" width="150" height="60" alt=""></notempty></td>
+        <td align="center"><if condition="$vo['linktype'] eq 1 ">文字链接<else />图片链接</if></td>
+        <td align="center">{$vo.listorder|default=0}</td>
+        <td align="center"><a href="javascript:void(0)" class="opStatus" val="{$vo.status}"><if condition="$vo['status'] eq 1">已审核<else /><span style="color:#F00">未审核</span></if></a></td>
+ 
+        <td align="center">{$vo.createtime|Date='Y-m-d H:i:s',###}</td>
+        <td align="center"> <a href="{:U('edit',array('id'=>$vo['id']))}"> 修改</a> | <a class="del" href="javascript:void(0)" link="{:U('del',array('id'=>$vo['id']))}"> 刪除 </a></td>
+      </tr>
+    </volist>
+    <tr bgcolor="#FFFFFF">
+      <td colspan="10" align="center"><ul class="pagination text-center" style="margin:10px 0px">{$page} </ul></td>
+    </tr>
+    
+  </table>
+</form>
+</div>
+<script type="text/javascript">
+$(function(){
+	$(".del").click(function(){
+		var delLink=$(this).attr("link");
+		var $this=$(this);
+		layer.confirm('确定要删除嘛?', {
+		  btn: ['确定','取消'] //按钮
+		}, function(){
+			$.get(delLink,function(data){
+				if(data.status==1){
+				  layer.msg(data.info, {icon: 1});
+				}else{
+				  layer.msg(data.info, {icon: 2});
+				}
+				setTimeout("window.location.reload();",2000);
+			});
+		});
+	});
+	
+	//快捷启用禁用操作
+	$(".opStatus").click(function(){
+		var obj=$(this);
+		var id=$(this).parents("tr").attr("id");
+		var status=$(this).attr("val");
+		var moduleid="23";
+		$.post("{:U('updateStatus')}", { "id":id, "value":status==1?0:1,'field':"status" ,"moduleid":moduleid}, function(json){
+			if(json.status==1){
+				layer.alert(json.info);
+				$(obj).attr("val",status==1?0:1).html(status==1?"<span style='color:#F00'>未审核</span>":"已审核");
+			}else{
+				layer.alert(json.info);
+			}
+		});
+	});
+
+});
+</script>
+</body>
+</html>

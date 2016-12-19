@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<include file="Common:jscss" />
+<style type="text/css">
+body {
+	padding-bottom: 40px;
+}
+select {
+	color:#000;
+}
+.sidebar-nav {
+	padding: 9px 0;
+}
+ @media (max-width: 980px) {
+/* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+	float: none;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+}
+</style>
+</head>
+<body>
+<div class="container-fluid"> <include file="Common:position" />
+  <ul class="nav nav-tabs margin_bottom" id="myTab" >
+  	<volist name="groupid" id="vo">
+    <li <if condition="$key eq 1"> class="active" </if> > <a href="#home_{$key}">{$vo}</a></li>
+    </volist>
+    <li><a href="#addSystem">添加参数</a></li>
+  </ul>
+  <div class="tab-content">
+  <volist name="groupid" id="vo">
+    <div <if condition="$key eq 1"> class="tab-pane active" <else />class="tab-pane"</if>  id="home_{$key}">
+      <form action="{:U('Site/index')}" method="post" enctype="multipart/form-data">
+      	<input name="groupid" type="hidden" value="{$key}">
+        <table class="table table-bordered table-hover definewidth">
+        	<volist name="system_list[$key]" id="_v">
+          <tr>
+            <th width="120">{$_v.info}：</th>
+            <td>{$_v.input_string}{$_v.mark}</td>
+          </tr>
+          </volist>
+            <tr>
+            <th width="120"></th>
+            <td> <button type="submit" class="btn btn-primary btn6"> 保存 </button> 
+        <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button"></td>
+          </tr>
+        </table>
+       
+      </form>
+    </div>
+  </volist> 
+   
+    <div class="tab-pane" id="addSystem">
+      <form action="{:U('Site/add')}" method="post">
+        <table class="table table-bordered table-hover definewidth">
+          <tbody>
+            <tr>
+              <th style="width:140px;">变量名称:</th>
+              <td><input type="text" class="form-control w30" name="varname" value="" required ></td>
+            </tr>
+               <tr>
+              <th>变量介绍:</th>
+              <td><input type="text" class="form-control w30" name="info" value="" required></td>
+            </tr>
+             <tr>
+              <th>参数分类</th>
+              <td><select id="groupid" name="groupid" required class="form-control w30" >
+                  <option value="">请选择参数分类</option>
+				  <volist name="groupid" id="vo">
+                  <option value="{$key}">{$vo}</option>
+                  </volist>
+                 
+               
+                </select></td>
+            </tr>
+            <tr>
+              <th>变量类型</th>
+              <td><select id="input_type" name="input_type" required class="form-control w30" >
+                  <option value="">请选择变量类型</option>
+
+                  <option value="text">单行文本</option>
+                  <option value="textarea">多行文本</option>
+                  <option value="select" tip="格式value|text,value|text用英文逗号隔开 例子：1|文本,2|下拉菜单">下拉列表</option>
+                  <option value="radio"  tip="格式value|text,value|text用英文逗号隔开 例子：1|文本,2|下拉菜单">单选按钮</option>
+                  <option value="checkbox"  tip="格式value|text,value|text用英文逗号隔开 例子：1|文本,2|下拉菜单">复选框</option>
+                  <option value="file">单文件上传</option>
+               	<option value="multipart" tip="值留空">多参数</option>
+                </select></td>
+            </tr>
+         
+            <tr>
+              <th>变量值:</th>
+              <td><input type="text" class="form-control w30" name="value" value=""> <span id="tips"></span></td>
+            </tr>
+            
+            <tr id="moban" style="display:none;">
+              <th>模板:</th>
+              <td><input type="text" class="form-control w30" name="html_text" value=""> <span id="html_text_tips"></span></td>
+            </tr>
+            
+            
+            <tr>
+              <th>备注提示:</th>
+              <td><textarea name="mark" cols="" rows="" class="form-control w30" ></textarea></td>
+            </tr>
+              <tr>
+            <th width="120"></th>
+            <td> <button type="submit" class="btn btn-primary btn6"> 保存 </button> 
+        <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button"></td>
+          </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="__PUBLIC__/bootstrap/js/bootstrap.min.js"> </script> 
+<script type="text/javascript"> 
+  $(function () { 
+	$('#myTab a:first').tab('show');//初始化显示哪个tab  
+	$('#myTab a').click(function (e) { 
+	  e.preventDefault();//阻止a链接的跳转行为 
+	  $(this).tab('show');//显示当前选中的链接及关联的content 
+	}) 
+	
+	$("#input_type").change(function(){
+		var val=$(this).val();
+		if(val=="select"||val=="radio"||val=="checkbox" || val=="multipart")	{
+			$("#moban").show();
+			$("#html_text_tips").html($(this).find("option:selected").attr("tip"));	
+		}else{
+			$("#moban").hide();
+			$("#html_text_tips").html('');		
+		}
+	});
+  }) 
+</script>
+</body>
+</html>

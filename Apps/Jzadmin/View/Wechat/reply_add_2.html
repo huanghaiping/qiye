@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>添加修改宣传页</title>
+<include file="Common:jscss" />
+</head>
+<body>
+<div class="container-fluid"> <include file="Common:position" />
+  <div id="main" class="main" >
+    <div class="content">
+      <form action="{:U($method)}" method="post" enctype="multipart/form-data" name="form2" id="playList">
+        <input name="id" type="hidden" value="{$info.id}">
+        <input name="wechat_id" type="hidden" value="{$wechat_id}">
+        <input name="reply_id" type="hidden" value="{$reply_id}">
+        <table class="insert-tab table table-hover" width="100%" style="font-size:12px">
+          <tbody>
+            <tr>
+              <th width="120"><font color="red">*</font>关键字：</th>
+              <td><input class="common-text required form-control w30" id="keyword" name="keyword"  value="{$info.keyword}" type="text" placeholder="例如：你好">  <div class="help-block"> （多个关键词请用空格分开：例如: 高 富 帅）</div></td>
+            </tr>
+            <tr>
+              <th width="120">排序：</th>
+              <td><input class="common-text required form-control w30" id="listorder" name="listorder"  value="{$info.listorder}" type="text" placeholder="50"></td>
+            </tr>
+            <tr>
+              <th>图文列表：</th>
+              <td><div id="morepicselect table-responsive" style="margin:5px">
+                  <div class="piclist" style=" width:100%; max-height:500px;overflow-y:auto;float:left">
+                    <table cellpadding="0" width="98%" class="insert-tab table table-hover"  style="font-size:12px">
+                      <tbody>
+                        <tr>
+                          <th width="70%">标题</th>
+                          <th width="20%">封面</th>
+                          <th width="10%">操作</th>
+                        </tr>
+                        <volist name="reply_list" id="vo">
+                          <tr>
+                            <td id="lists_{$vo.id}" class="title" style="padding:0px 5px;">{$vo.title}</td>
+                            <td class="thumb" style="padding:0px 2px;"><img class="list_thumb" width="40" src="{$vo.thumb}"></td>
+                            <td style="padding:0px 2px;"><a href="javascript:void(0);" onclick="select_text({$vo.id})">选择</a></td>
+                          </tr>
+                        </volist>
+                      </tbody>
+                    </table>
+                  </div>
+                </div></td>
+            </tr>
+            <tr>
+              <th width="120">已选中的图文：</th>
+              <td><div class="select_piclist" style=" width:100%; max-height:500px;overflow-y:auto;float:left">
+                  <table cellpadding="0" width="98%" class="insert-tab table table-hover"  style="font-size:12px">
+                    <tbody id="select_text_list">
+                      <tr>
+                        <th width="10%" title="排序从大到小">排序从大到小</th>
+                        <th width="60%">标题</th>
+                        <th width="20%">封面</th>
+                        <th width="10%">操作</th>
+                      </tr>
+                      <volist name="info['text_list']" id="vo">
+                      <tr id="select_{$vo.id}">
+                      	<td  class="sort_td" style="padding:0px 5px;" rel="{$vo.id}" >
+                        <input class="common-input sort-input sort form-control" id="sort_{$vo.id}" name="sort_{$vo.id}" value="{$vo.orderby}" type="text"></td>
+                        <td  class="title" style="padding:0px 5px;">{$vo.title}</td>
+                        <td class="cover" style="padding:0px 2px;"><img class="list_thumb" width="50" src="{$vo.thumb}"></td>
+                        <td style="padding:0px 2px;"><a href="javascript:void(0);" onclick="delete_text({$vo.id})">删除</a></td>
+                        </tr>
+                      </volist>
+                    </tbody>
+                  </table>
+                </div></td>
+            </tr>
+            <tr>
+              <th></th>
+              <td>
+              <input name="mult_ids" id="mult_ids" type="hidden" value="{$info.mult_ids}">
+              <input class="btn btn-primary btn6 mr10" id="button" value="提交" type="submit">
+                <input class="btn btn6" onclick="history.go(-1)" value="返回" type="button"></td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){	
+	$("#button").click(function(){
+		var keyword=$("#keyword");
+		if(keyword.val().length<=0){
+			layer.tips('请输入关键词', '#keyword',{tips: [2, '#3a8ea1']});
+			$("#keyword").focus();
+			return false;	
+		}
+		var parent_obj=$(".select_piclist").find(".sort_td");
+		var select_length=parent_obj.length;
+		var id="",sorts;
+		if(select_length<=0){
+			layer.alert("请选择图文");
+			return false;	
+		}
+		var string="";
+		for(i=0;i<select_length;i++){
+			id=parent_obj[i].getAttribute("rel");
+			sorts=$("#sort_"+id).val();
+			string+=id+"_"+sorts+"#";
+		}
+		$("#mult_ids").val(string);
+		return true;
+	});
+	
+ 
+})
+/**
+ * 点击选择添加到列表
+ */
+function select_text(id){
+	var parent_obj=$('#lists_'+id).parent();
+	var title = parent_obj.find('.title').html();
+	var thumb = parent_obj.find('.list_thumb').attr("src");
+	
+	var select_length=$(".select_piclist").find(".sort_td").length;
+	if(select_length>=9){
+		layer.alert("同时最多不能超过9个！");
+        return false;
+	}
+	var already=$("#select_"+id).length;
+	if(already>0){
+		layer.alert("图文已选择,请勿重复选择");
+		return false;
+	}
+	var html='<tr id="select_'+id+'"><td  class="sort_td" style="padding:0px 5px;" rel="'+id+'" ><input class="common-input sort-input sort form-control" id="sort_'+id+'" name="sort_'+id+'" value="'+id+'" type="text"></td><td  class="title" style="padding:0px 5px;">'+title+'</td><td class="cover" style="padding:0px 2px;"><img class="list_thumb" width="50" src="'+thumb+'"></td><td style="padding:0px 2px;"><a href="javascript:void(0);" onclick="delete_text('+id+')">删除</a></td></tr>';
+	$("#select_text_list").append(html);
+	
+}
+/**
+ * 删除列表
+ */
+function delete_text(id){
+	$("#select_"+id).remove();
+}
+</script>
+</body>
+</html>

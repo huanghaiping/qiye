@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<include file="Common:jscss" />
+<style type="text/css">
+body {
+	padding-bottom: 40px;
+}
+.sidebar-nav {
+	padding: 9px 0;
+}
+ @media (max-width: 980px) {
+/* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+	float: none;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+}
+</style>
+</head>
+<body>
+<div class="container-fluid"> 
+ <include file="Common:position" />
+<form action="{:U('watermark')}" method="post" class="definewidth m10" style="margin-left:0px;" enctype="multipart/form-data">
+  <table class="table table-bordered table-hover definewidth m10" style="width:100%">
+    <tr>
+      <td width="13%" class="tableleft">是否开启图片水印</td>
+     <td width="87%"><label><input type="radio" name="status" value="1" <if condition="!isset($info['status']) || $info['status'] eq 1 "> checked="" </if> > 
+            启用</label>
+            <label>
+            <input type="radio" name="status" value="0"  <if condition="$info['status'] eq 0 "> checked="" </if>>
+            禁用</label> </td>
+    </tr>
+       <tr>
+      <td width="13%" class="tableleft">水印文字内容</td>
+      <td><input type="text" name="watemard_text" id="watemard_text" class="form-control w30" value="{$info.watemard_text}" /><div class="help-block">&nbsp;当时文字水印时填写,默认为空</div></td>
+    </tr>
+    
+        <tr>
+      <td width="13%" class="tableleft">文字大小	</td>
+      <td><input type="text" name="watemard_text_size" id="watemard_text_size" class="form-control w30" value="{$info.watemard_text_size|default=18}" /><div class="help-block">px</div></td>
+    </tr>
+    
+       <tr>
+      <td width="13%" class="tableleft">文字颜色	</td>
+      <td><input type="text" name="watemard_text_color" id="watemard_text_color" class="form-control w30" value="{$info.watemard_text_color|default='#FFFFFF'}" /><div class="help-block">#FFFFFF为白色 #000000为黑色</div></td>
+    </tr>
+   
+   
+      <tr>
+      <td width="13%" class="tableleft">字体	</td>
+      <td><input type="text" name="watemard_text_face_txt" id="watemard_text_face_txt" class="form-control w30" value="{$info.watemard_text_face|default='elephant.ttf'}" style="float:left; margin-right:10px;" /> <input name="watemard_text_face" type="file"><div class="help-block">若水印为中文放中文字体在Public/images/font/目录下</div></td>
+    </tr>
+   
+     <tr>
+      <td width="13%" class="tableleft">文字水印边距	</td>
+      <td><input type="text" name="watermark_pospadding" id="watermark_pospadding" class="form-control w30" value="{$info.watermark_pospadding|default=10}" /></td>
+    </tr>
+   
+      <tr>
+      <td width="13%" class="tableleft">水印添加条件		</td>
+      <td><input type="text" name="watermark_minwidth" id="watermark_minwidth" class="form-control w30" value="{$info.watermark_minwidth|default=300}" style="width:20%;" /><div class="help-block">PX 宽</div>&nbsp;&nbsp;<input type="text" name="watermark_minheight" id="watermark_minheight" class="form-control w30" value="{$info.watermark_minheight|default=300}" style="width:20%;" /><div class="help-block">PX 高</div></td>
+    </tr>
+   
+   
+    <tr>
+      <td width="13%" class="tableleft">水印图片	</td>
+      <td><input type="text" name="watermark_img_txt" id="watermark_img_txt" class="form-control w30" value="{$info.watermark_img|default='mark.png'}" style="float:left; margin-right:10px;" />
+      <input name="watermark_img" type="file"><div class="help-block">水印图片路路径在Public/images/目录下</div></td>
+    </tr>
+    
+     <tr>
+      <td width="13%" class="tableleft">水印透明度	</td>
+      <td><input type="text" name="watermark_pct" id="watermark_pct" class="form-control w30" value="{$info.watermark_pct|default=80}" /></td>
+    </tr>
+    
+     <tr>
+      <td width="13%" class="tableleft">JPEG 水印质量	</td>
+      <td><input type="text" name="watermark_quality" id="watermark_quality" class="form-control w30" value="{$info.watermark_quality|default=100}" /></td>
+    </tr>
+   
+     <tr>
+      <td width="13%" class="tableleft">水印位置		</td>
+      <td>
+      <table width="60%" class="radio-label" cellpadding="0" cellspacing="0">
+		  <tbody><tr>
+		   <td><label><input class="radio_style" name="watermark_pos" value="1" type="radio" <if condition="$info['watermark_pos'] eq 1">checked=""</if> > 顶部居左</label></td>
+			  <td><label><input class="radio_style" name="watermark_pos" value="2" type="radio" <if condition="$info['watermark_pos'] eq 2">checked=""</if> > 顶部居中</label></td>
+			  <td><label><input class="radio_style" name="watermark_pos" value="3" type="radio" <if condition="$info['watermark_pos'] eq 3">checked=""</if> > 顶部居右</label></td>
+		  </tr>
+		  <tr>
+			<td><label><input class="radio_style" name="watermark_pos" value="4" type="radio" <if condition="$info['watermark_pos'] eq 4">checked=""</if> > 左部居中</label></td>
+			  <td><label><input class="radio_style" name="watermark_pos" value="5" type="radio" <if condition="$info['watermark_pos'] eq 5">checked=""</if> > 左部居左</label></td>
+			  <td><label><input class="radio_style" name="watermark_pos" value="6" type="radio" <if condition="$info['watermark_pos'] eq 6">checked=""</if> > 左部居右</label></td>
+			</tr>
+		  <tr>
+			<td><label><input class="radio_style" name="watermark_pos" value="7" type="radio" <if condition="$info['watermark_pos'] eq 7">checked=""</if> > 底部居左</label></td>
+			  <td><label><input class="radio_style" name="watermark_pos" value="8" type="radio" <if condition="$info['watermark_pos'] eq 8">checked=""</if> > 底部居中</label></td>
+			  <td><label><input class="radio_style" name="watermark_pos" value="9" type="radio" <if condition="!isset($info['watermark_pos'])  or $info['watermark_pos'] eq 9">checked=""</if> > 底部居右</label></td>
+			</tr>
+			</tbody></table>
+      </td>
+    </tr> 
+    <tr>
+      <td class="tableleft"></td>
+      <td><button type="submit" class="btn btn-primary btn6"> 保存</button>
+        <button type="button" class="btn btn6" name="backid"  onClick="history.go(-1)">返回</button></td>
+    </tr>
+  </table>
+</form>
+</div>
+
+<script type="text/javascript">
+$(function(){   
+		$(".btn-primary").click(function(){
+			if($("#name").val()==""){
+				layer.tips('请输入语言名称', '#name',{tips: [2, '#3a8ea1']});
+				return false;
+			}
+			if($("#mark").val()==""){
+				layer.tips('请输入语言标识', '#mark',{tips: [2, '#3a8ea1']});
+				return false;
+			}
+		});	
+});
+</script>
+</body>
+</html>

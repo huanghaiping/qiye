@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>数据管理</title>
+<include file="Common:jscss" />
+</head>
+<body>
+<div class="container-fluid"> 
+<include file="Common:position" />
+<div id="Right">
+  <div class=" page-header definewidth m10" style="width:100%; margin:10px 0px; display:inline-block">
+   <span style=" float:left; margin-bottom:10px;">
+    <button class="btn btn-success"   onclick="javascript:window.location.href='{:U('restore')}'">数据库导入</button>
+    &nbsp;&nbsp;
+    <button class="btn btn-success" onclick="javascript:window.location.href='{:U('zipList')}'">数据库压缩包</button>
+    &nbsp;&nbsp;
+    <button class="btn btn-success" onclick="javascript:window.location.href='{:U('repair')}'">数据库优化修复</button>
+    &nbsp;&nbsp;
+     <button type="button" class="btn submit btn-info"><i class="glyphicon glyphicon-file"></i>备份所选</button>
+     </span> 
+    <span style="float:right">数据库中共有{$tables}张表，共计{$total}</span> 
+   </div>
+    
+  <form class="definewidth m10" method="post" action="{:U('backup')}" id="myform">
+    <table class="table table-bordered table-hover definewidth" style="margin-left:0px; width:100%">
+      <thead>
+        <tr>
+          <th align="center" style="text-align:center">
+              <input name="" class="chooseAll" type="checkbox"/>
+          </th>
+          <th width="154">表名</th>
+          <th width="233">表用途</th>
+          <th width="114">记录行数</th>
+          <th width="183">引擎类型</th>
+          <th width="209">字符集</th>
+          <th width="214">表大小</th>
+        </tr>
+      </thead>
+      <tbody>
+        <volist name="list" id="tab">
+          <tr align="center">
+            <td><input type="checkbox" name="table[]" value="{$tab.name}"/></td>
+            <td align="left">{$tab.name}</td>
+            <td>{$tab.comment}</td>
+            <td>{$tab.rows}</td>
+            <td>{$tab.engine}</td>
+            <td>{$tab.collation}</td>
+            <td>{$tab.size}</td>
+          </tr>
+        </volist>
+      </tbody>
+      <tfoot align="center">
+        <tr>
+          <td  align="center"> 
+              <input name="" class="chooseAll" type="checkbox"/>
+           </td>
+          <td>表名</td>
+          <td>表用途</td>
+          <td>记录行数</td>
+          <td>引擎类型</td>
+          <td>字符集</td>
+          <td>总计：{$total}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </form>
+</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	clickCheckbox();
+	$(".submit").click(function(){
+		if($("tbody input[type='checkbox']:checked").size()==0){
+			layer.msg("请先选择你要备份的数据库表吧");
+			return false;
+		}
+		if($(this).attr("disabledSubmit")){
+			layer.msg("已提交，系统在处理中...");
+			return false;
+		}else{
+			$(this).attr("disabledSubmit",true).html("提交处理中...");
+		}
+		$("#myform").submit();
+	});
+});
+</script>
+</body>
+</html>

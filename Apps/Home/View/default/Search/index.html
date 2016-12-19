@@ -1,0 +1,32 @@
+<include file="Common:header" />
+
+<section class="container wrap clearfix">
+ 
+  <div class="sub-nav clearfix wow fadeInUp">
+    <ul class="clearfix">
+   
+	    <li><a href="javascript:void(0)">搜索关键词:{$keyword}</a></li>
+         
+    </ul>
+    <div class="fr wz-box">
+    	{:L('CATPOS')}：<a href="__ROOT__/">{:L('HOME')}</a> >在线搜索</div>
+  </div>
+  <ul class="news-list wow bounceInUp">
+  
+  	<volist name="list" id="vo">
+    <li> <a href="{$vo.url}">
+      <h2>{$vo.title}</h2>
+      <div class="time hidden-xs"> {$vo.createtime|date='Y-m-d',###}</div>
+      <p>{$vo.description|stripslashes}</p>
+      </a> </li>
+     </volist> 
+    
+  </ul>
+  <nav class="fenye text-center wow bounceInUp">
+ 
+    <ul class="pagination pagination-sm">
+      {$pages}
+    </ul>
+  </nav>
+</section>
+ <include file="Common:footer" />

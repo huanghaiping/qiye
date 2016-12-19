@@ -1,0 +1,39 @@
+<include file="Common:header" />
+<div class="box">
+		<div class="login-box">
+			<div class="login-title text-center">
+				<h1><small>{:L('RETRIEVE_PASSWORD')}</small></h1>
+			</div>
+			<div class="login-content">
+			<div class="form">
+			<form action="{:U('sendpwd')}" method="post" id="findPwdForm">
+        <input name="jump" id="jump" type="hidden" value="{$jump}">
+				<div class="form-group">
+					<div class="col-xs-12  ">
+						<div class="input-group">
+							<span class="input-group-addon">{:L('EMAIL')}:</span>
+							 <input name="username" id="username" type="text" placeholder="{:L('EMAIL')}" class="form-control"    >
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-12  ">
+						<div class="input-group">
+							<span class="input-group-addon">{:L('VERIFICATION_CODE')}：</span>
+							<input name="verify" id="verify" type="text" placeholder="{:L('VERIFICATION_CODE')}" class="form-control"  style="width:100px;vertical-align: middle; float:left; margin-right:5px;" maxlength="4" >
+                             <img src="{:U('Verify/index')}" title="{:stripslashes(L('CLICK_HERE_REFRESH'))}" width="167" <if condition="C('URL_MODEL') eq 2"> onclick="this.src=this.src+'?rand='+Math.random();" <else />onclick="this.src=this.src+'&rand='+Math.random();" </if> style="cursor: pointer; vertical-align: middle;">
+						</div>
+					</div>
+				</div>
+				<div class="form-group form-actions">
+					<div class="col-xs-4 col-xs-offset-4 ">
+						<button type="submit" id="submitForm" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-off"></span> {:L('SUBMIT')}</button>
+					</div>
+				</div>
+				 
+			</form>
+			</div>
+		</div>
+	</div>
+</div>
+<include file="Common:footer" /> 

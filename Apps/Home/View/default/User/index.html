@@ -1,0 +1,79 @@
+<include file="Common:header" />
+<div class="container mt20">
+  <div class="breadcrumb" style="background:none">
+    <div class="wz"> {:L('CATPOS')}：<a href="__ROOT__/">{:L('HOME')}</a> &gt; <a href="{:U('User/index')}">{:L('MEMBER_CENTER')}</a> </div>
+  </div>
+  <include file="User:left" />
+  <div class="col-lg-9 hidden-xs" style="padding-left:0; padding-right:0;">
+    <div class="user_content">
+      <div class="breadcrumbs">{:L('MEMBER_CENTER')}</div>
+      <div class="user_info">
+        <div class="col-1 nobg">
+          <h5 class="title"><b>{:L('PERSONAL_INFORMATION')}：</b></h5>
+          <div class="content_info">
+            <div class="col-left himg"> <a href="#">
+            <notempty name="userDetail['faceurl']">
+            	<img src="{$userDetail.faceurl}" width="60" height="60"><else />
+                <img src="__PUBLIC__/nopic.jpg" width="60" height="60"  /></notempty>
+            </a> 
+            </div>
+            <div class="col-auto">
+              <h5> {$userDetail.nickname}  
+               <notempty name="userDetail['email']" >({$userDetail.email})</notempty>
+                </h5>
+              <p class="blue"> {:L('MEMBER_GROUP')}：{$group_info.name}，
+                {:L('ACCOUNT_BALANCE')}：<font style="color:#F00; font-size:22px;font-family:Georgia,Arial; font-weight:700">{$userDetail.money|default=0}</font> {:L('DOLLAR')}
+                 </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-1 ">
+          <h5 class="title"><b>{:L('DETAILED_INFORMATION')}：</b></h5>
+          <div class="content_info">
+            <table width="100%" cellspacing="0" class="table_form">
+              <tbody>
+                <tr>
+                  <th>{:L('REAL_NAME')}：</th>
+                  <td><notempty name="userDetail['truename']">{$userDetail.truename}<else />{:L('NOT_FILLING')}</notempty></td>
+                </tr>
+                <tr>
+                  <th width="120">{:L('PHONE_NUMBER')}：</th>
+                  <td> <notempty name="userDetail['mobile']">{$userDetail.mobile}<else />{:L('NOT_FILLING')}</notempty></td>
+                </tr>
+                <tr>
+                  <th width="120">{:L('EMAIL')}：</th>
+                  <td> <notempty name="userDetail['email']">{$userDetail.email}<else />{:L('NOT_FILLING')}</notempty> </td>
+                </tr>
+                <tr>
+                  <th>{:L('LOCAL_AREA')}：</th>
+                  <td><notempty name="userDetail['loation']">{$userDetail.loation}<else />{:L('NOT_FILLING')}</notempty> </td>
+                </tr>
+                <tr>
+                  <th>{:L('CONSTELLATION')}：</th>
+                  <td><if condition="$userDetail['constellation'] neq ''">{$userDetail.constellation}<else />{:L('NOT_FILLING')}</if> </td>
+                </tr>
+                <tr>
+                  <th>{:L('AUTOGRAPH')}：</th>
+                  <td><notempty name="userDetail['description']">{$userDetail.description}<else />{:L('NOT_FILLING')}</notempty> </td>
+                </tr>
+                <tr>
+                  <th width="120">{:L('REGISTRATION_TIME')}：</th>
+                  <td>{$userDetail.reg_time|getTimeInfo}</td>
+                </tr>
+                <tr>
+                  <th width="120">{:L('LAST_LOGIN')}：</th>
+                  <td>{$userDetail.login_time|getTimeInfo}</td>
+                </tr>
+                <tr>
+                  <th width="120">{:L('REGISTRATION_IP')}：</th>
+                  <td>{$userDetail.userip}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<include file="Common:footer" />

@@ -1,0 +1,121 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>搜索词接管理列表</title>
+<base target="_self">
+<include file="Common:jscss" />
+<style type="text/css">
+.fenye li {
+	float:left;
+	margin:10px 5px;
+}
+.listnav {
+	margin:0px;
+	padding:0px;
+	height:150px;
+	overflow:auto
+}
+.listnav li {
+	width:50%;
+	float:left;
+}
+</style>
+</head>
+<body>
+<div class="container-fluid"> 
+<include file="Common:position" />
+<form action="__URL__/seachkeyword" method="post" name="form" class="form-inline definewidth m10">
+  <input name="title" type="text" style="width:250px"  value="{$keyword}" placeholder="名称"  class="form-control w30">
+  &nbsp;
+  <select name="orderby"   class="form-control w30">
+  <option value="id" <eq name="orderby" value="id">selected</eq> >按最新排序</option>
+   <option value="num"  <eq name="orderby" value="num">selected</eq> >按搜索数排序</option>
+  </select>
+  <button name="btn" type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i>查 询</button>
+     <button type="button" class="btn btn-success" id="addnew" onClick="javascript:window.location.href='{:U('addkeyword',array('pid'=>$pid))}'"><i class="glyphicon glyphicon-plus"></i>添加搜索词</button>
+  <button type="button" class="btn delestatus btn-danger"><i class="glyphicon glyphicon-trash"></i>批量删除</button>
+</form>
+
+<table class="table table-bordered table-hover definewidth m10" style="font-size:12px; width:100%;">
+ 
+    <tr>
+      <th width="5%" align="center" style="text-align:center"><input name="" class="chooseAll" type="checkbox" title="点击全选"></th>
+      <th width="13%">ID</th>
+      <th width="44%">关键词</th>
+      <th width="12%">数量</th>
+      <th width="17%">添加时间</th>
+      <th width="9%">操作</th>
+    </tr>
+    <volist name="list" id="vo" key="k">
+      <tr id="{$vo.id}">
+        <td align="center"><input name="aid[]"  class="id" type="checkbox"  value="{$vo.id}"></td>
+        <td align="center">
+          {$vo.id}</td>
+        <td align="left">
+        <notempty name="vo['jumpurl']">
+         <a href="{$vo.jumpurl}" target="_blank">{$vo.keyword}</a>
+        <else />
+        <a href="/Search/index/keyword/{$vo.keyword}" target="_blank">{$vo.keyword}</a>
+        </notempty>
+        </td>
+        <td align="center">{$vo.num}</td>
+        <td align="center">{$vo.ctime|Date='Y-m-d H:i:s',###}</td>
+        <td align="center"><a  href="__URL__/editkeyword/id/{$vo.id}"> 修改 </a> | <a class="del" href="javascript:void(0)" link="__URL__/delkeyword/files/{$vo.id}"> 刪除 </a></td>
+      </tr>
+    </volist>
+    <tr bgcolor="#FFFFFF">
+      <td colspan="8" align="center"><ul class="pagination text-center" style="margin:10px 0px">{$page} </ul></td>
+    </tr>
+    
+  </table>
+
+</div>
+<script type="text/javascript">
+$(function(){
+	clickCheckbox();
+	$(".del").click(function(){
+		var delLink=$(this).attr("link");
+		var $this=$(this);
+		layer.confirm('确定要删除嘛?', {
+		  btn: ['确定','取消'] //按钮
+		}, function(){
+			$.get(delLink,function(data){
+				if(data.status==1){
+				  layer.msg(data.info, {icon: 1});
+				}else{
+				  layer.msg(data.info, {icon: 2});
+				}
+				setTimeout("window.location.reload();",2000);
+			});
+		});
+	});
+	
+	 $(".delestatus").click(function(){
+	  var files=[];
+	  $("tbody input[type='checkbox'][name='aid[]']:checked").each(function(i){
+		 files[i]=$(this).val();
+	  });
+	 if(files==""){
+		layer.msg('请选择要删除的内容', {icon: 2});
+		return false;	
+	  } 
+	var moduleid="{$moduleId}";
+	layer.confirm('确定要删除所有内容?', {
+	  btn: ['确定','取消'] //按钮
+	}, function(){
+		$.post("__URL__/delkeyword",{"files" : files},function(data){
+			if(data.status==1){
+			  layer.msg(data.info, {icon: 1});
+			}else{
+			  layer.msg(data.info, {icon: 2});
+			}
+			setTimeout("window.location.reload();",2000);
+		});
+	}); 
+ });
+	
+
+});
+</script>
+</body>
+</html>

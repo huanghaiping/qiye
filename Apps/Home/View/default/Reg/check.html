@@ -1,0 +1,39 @@
+<include file="Common:header" />
+<div class="page">
+  <div class="page_login">
+  
+      <form action="{:U('check')}" method="post">
+    <input name="type" type="hidden" value="{$type}" />
+    	<ul>
+        	<li>
+            <span style="width:100px;">{:L('PHONE_NUMBER')}:</span>
+            <input name="mobile" id="mobile" type="text" placeholder="{:L('PHONE_NUMBER')}" class="input_class" value="{$mobile}" readonly  >
+          
+            </li>
+            <li><span  style="width:100px;">{:L('SMS_VERIFICATION_CODE')}:</span>
+            <input name="verify" id="verify" type="text" placeholder=">{:L('SMS_VERIFICATION_CODE')}" style="vertical-align: middle;" class="input_class" >
+           
+            </li>
+        </ul>
+        <input name="" type="submit" value="{:L('SUBMIT')}" class="btn" id="reset_pwd">
+       
+      </form>
+     
+       
+  </div>
+</div>
+ <script type="text/javascript">
+$(function(){
+	$("#reset_pwd").click(function(){
+		var verify=$("#verify").val();
+		if(verify.length==0){
+			alert("{:L('VERIFICATION_CODE_IS_EMPTY')}");
+			$("#verify").focus();
+			return false;	
+		 }
+		 
+		return true;
+	});	
+});
+</script>
+<include file="Common:footer" /> 

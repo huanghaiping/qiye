@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>添加修改友情链接</title>
+<include file="Common:jscss" />
+</head>
+<body>
+<div class="container-fluid"> 
+<include file="Common:position" />
+<div id="main" class="main" >
+  <div class="content">
+    <form action="{:U($method)}" method="post" enctype="multipart/form-data" name="form2" id="playList">
+      <input name="id" type="hidden" value="{$info.id}">
+      <table class="table table-bordered table-hover definewidth m10" style="font-size:12px">
+        <tr  bgcolor="#FFFFFF">
+          <th>链接类型： </th>
+          <td colspan="5" style="text-align:left;"><span class="tLeft">
+         	 <label style="float:left; margin-right:20px;">
+                <input type="radio" name="linktype" value="1" id="linktype_0" <eq name="info['linktype']" value="1">checked</eq> <empty name="info['linktype']">checked</empty> >
+                文字类型</label>
+              
+              <label>
+                <input type="radio" name="linktype" value="2" id="linktype_1" <eq name="info['linktype']" value="2">checked</eq>  >
+                图片链接</label>
+                 </span>
+              </td>
+        </tr>
+        
+        <tr bgcolor="#FFFFFF">
+          <th width="100"> 网站名称： </th>
+          <td colspan="5"  class="tLeft"><input name="name" type="text" id="name" class="form-control w30" value="{$info.name}">
+            &nbsp;<span class="tip"></span></td>
+        </tr>
+        <tr  bgcolor="#FFFFFF">
+          <th> 网站地址： </th>
+          <td colspan="5" style="text-align:left;"><span class="tLeft">
+            <input name="siteurl" type="text" id="siteurl" class="form-control w30" value="{$info.siteurl}">
+            </span></td>
+        </tr>
+         
+        <tr  bgcolor="#FFFFFF"  id="logo" >
+          <th> 网站logo： </th>
+          <td colspan="5" style="text-align:left;"> 
+            <input name="logo_txt" type="text" id="logo_txt" class="form-control w30" value="{$info.logo}" style="float:left;"><input name="logo" type="file">
+        	  <notempty name="info['logo']">
+           <div class="page m15 margin_bottom"> <img name="member_face_img" id="member_face_img" src="{$info.logo}" width="128" height="128" alt=""></div>
+            </notempty>
+           
+            </td>
+        </tr>
+      
+  
+        <tr  bgcolor="#FFFFFF">
+          <th> 排序： </th>
+          <td colspan="5" style="text-align:left;"><span class="tLeft">
+            <input name="listorder" type="text" id="listorder" class="form-control w30" value="{$info.listorder|default=50}" >
+            </span></td>
+        </tr>
+        <tr  bgcolor="#FFFFFF">
+          <th> 是否显示： </th>
+          <td colspan="5" style="text-align:left;"><label style="float:left; margin-right:10px;"> <input type="radio" name="status" value="1" id="ishome_0" 
+              <if condition="$info['status'] eq 1">checked</if>
+              >
+              已审核</label>
+            <label style="float:left; margin-right:10px;"> <input type="radio" name="status" value="0" id="ishome_1" 
+              <if condition="$info['status'] eq 0">checked</if>
+              >
+              未审核</label></td>
+        </tr>
+    
+        <tr bgcolor="#FFFFFF">
+          <td  class="tLeft">&nbsp;</td>
+          <td colspan="5"  class="tLeft"><input type="submit" name="button" id="button" class="btn btn-primary btn6" value="提交">
+           <button type="button" class="btn btn6" onclick="history.go(-1)" name="backid" id="backid">返回</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+</div>
+<script type="text/javascript">    
+$(document).ready(function(){
+	 $("input[name='linktype']").click(function(){
+			 var linktype=$('input[name="linktype"]:checked').val();
+			 if(linktype==1){
+				$('#logo').hide();
+			 }else if(linktype==2){
+				 $('#logo').show();
+			 }
+        });
+    });
+
+</script>
+</body>
+</html>

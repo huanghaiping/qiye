@@ -1,0 +1,84 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>main</title>
+<base target="_self">
+<include file="Common:jscss" />
+<style type="text/css">
+.fenye li {
+	float:left;
+	margin:10px 5px;
+}
+.listnav {
+	margin:0px;
+	padding:0px;
+	height:150px;
+	overflow:auto
+}
+.listnav li {
+	width:50%;
+	float:left;
+}
+</style>
+</head>
+
+<body>
+  <div class="container-fluid"> 
+  <include file="Common:position" />
+<form action="{:U('createSlide')}" method="post" name="form2" id="playList">
+  <input name="typeid" type="hidden" value="{$typeid}">
+  <input name="typename" type="hidden" value="main">
+<table class="table table-bordered table-hover definewidth m10" style="font-size:12px">
+    <tr bgcolor="#FFFFFF">
+      <td colspan="6" align="left"><button type="button" name="button2" onClick="javascript:window.location.href='{:U('addslide',array('typeid'=>$typeid))}'"  class="btn btn-success" value=""><i class="glyphicon glyphicon-plus"></i>上传图片</button>
+      </td>
+    </tr>
+ 
+    <tr>
+      <th>选择</th>
+      <th>标题</th>
+      <th>图片路径 </th>
+      <th>添加时间</th>
+      <th>排序</th>
+      <th>操作</th>
+    </tr>
+    <volist name="listslde" id="vo" key="k">
+      <tr bgcolor="#FFFFFF">
+        <td align="center"><input name="id[]"  class="id" type="checkbox"  value="{$vo.id}">
+          {$vo.id}</td>
+        <td align="center">{$vo.title}</td>
+        <td align="center"><a href="{$vo.linkurl}" target="_blank"><img src="{$vo.picurl} " width="300" /></a></td>
+        <td align="center">{$vo.ctime|Date='Y-m-d H:i:s',###}</td>
+        <td align="center">{$vo.sortslide}</td>
+        <td align="center"><a href="{:U('editslide',array('id'=>$vo['id']))}"> 修改</a> | <a class="delCate" href="javascription:void(0);" link="{:U('delslide',array('id'=>$vo['id']))}"> 刪除 </a></td>
+      </tr>
+    </volist>
+
+    <tr bgcolor="#FFFFFF">
+      <td colspan="6" align="left"></td>
+    </tr>
+  </table>
+</form>
+</div>
+<script type="text/javascript">
+$(function(){
+	$(".delCate").click(function(){
+		var $this=$(this);
+		layer.confirm('确定要删除嘛?', {
+		  btn: ['确定','取消'] //按钮
+		}, function(){
+			var url = $this.attr("link");
+		  	$.get(url,function(data){
+				if(data.status==1){
+				  layer.msg(data.info, {icon: 1});
+				}else{
+				  layer.msg(data.info, {icon: 2});
+				}
+				setTimeout("window.location.reload();",2000);
+		  	});
+		});	
+	});
+});
+</script>
+</body>
+</html>

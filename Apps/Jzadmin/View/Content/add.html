@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>添加、编辑{$module_info.title}-后台管理</title>
+<include file="Common:jscss" />
+<if condition="in_array('editor',$field_type)">
+ <include file="Common:ueditor" />
+</if>
+<if condition="in_array('datetime',$field_type)">
+<script type="text/javascript" src="__PUBLIC__/layer/laydate.js"></script>
+</if>
+<script type="text/javascript" src="__PUBLIC__/validate/jquery.validate.js"></script>
+<body>
+<div class="container-fluid"> <include file="Common:position" />
+  <div id="Right">
+    <form  class="definewidth m10"  action="{:U($method)}" method="post" enctype="multipart/form-data"  id="conentForm">
+      <input type="hidden" name="id" value="{$info.id}" />
+      <input name="name" type="hidden" value="{$info.title}" />
+      <input name="moduleid" type="hidden" value="{$module_info.id}" />
+      
+      <table class="table table-bordered table-hover  m10">
+      	<volist name="field_list" id="vo">
+        <tr>
+          <th width="100"><if condition="$vo['required']"><font color="red">*</font></if>{$vo.name}</th>
+          <td>{$vo|getform=$form,###}<notempty name="vo['tips']"><span class="help-block">{$vo.tips}</span></notempty></td>
+        </tr>
+   
+    	</volist>
+      </table>
+      <div class="m10" style="margin-bottom:20px; text-align:center">
+        <button class="btn  btn-primary submit btn6">提交</button>
+        &nbsp;&nbsp;
+      <button type="button" class="btn btn6" onclick="history.go(-1)" name="backid" id="backid">返回</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+ 
+</body>
+</html>
