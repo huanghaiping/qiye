@@ -186,7 +186,8 @@ class ContentController extends CommonController {
 				$del_field[$value['field']]=$value['type'];
 			}
 		}
-		$info = $module_name->where ( "id in({$idStr})" )->field ( "id,".implode(",", array_keys($del_field)) )->select ();
+		$del_field_string=count($del_field)>0 ? ",".implode(",", array_keys($del_field)) : "";
+		$info = $module_name->where ( "id in({$idStr})" )->field ( "id".$del_field_string)->select ();
 		foreach ( $info as $value ) {
 			$result = $module_name->where ( "id='" . $value ['id'] . "'" )->delete ();
 			if ($result) {

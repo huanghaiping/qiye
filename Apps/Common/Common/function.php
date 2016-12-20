@@ -323,7 +323,7 @@ function string2array($str, $space = "/") {
  * @param Array $data
  * @param Array $Urlrule
  */
-function createHomeUrl($cat, $id = '', $param = array()) {
+function createHomeUrl($cat, $id = '', $param = array()) { 
 	if ($cat ['typeid'] == 0 && empty ( $id )) {
 		return $cat ['param'];
 	}
@@ -343,9 +343,8 @@ function createHomeUrl($cat, $id = '', $param = array()) {
 		$listtype = 'lists';
 		$space = "_";
 	}
-	 
 	$page = isset ( $param [$var_page] ) && ! empty ( $param [$var_page] ) ? 1 : 0; //判断是否带有分页参数
-	if ($URL_MODEL !=2 || empty ( $catdir )) { //普通模式
+	if ($URL_MODEL == 0 || empty ( $catdir )) { //普通模式
 		if ($id) {
 			if (empty ( $param ) && $URL_MODEL == 2) {
 				$page_code = urlencode ( $param [$var_page] );
@@ -356,7 +355,7 @@ function createHomeUrl($cat, $id = '', $param = array()) {
 				$url = U ( $catmodule . "/detail", $param );
 			}
 		} else {
-			if ($page && empty ( $cat ['param'] ) && $URL_MODEL == 2) { 
+			if ($page && empty ( $cat ['param'] ) && $URL_MODEL == 2) {
 				$page_code = urlencode ( $param [$var_page] );
 				$url = U ( '/' . strtolower ( $catmodule ) . $space . $catid . $space . $page_code . '/' );
 				$url = str_replace ( strtolower ( $page_code ), $page_code, $url );
@@ -372,19 +371,20 @@ function createHomeUrl($cat, $id = '', $param = array()) {
 				}
 			}
 		}
-		 
-		$urls = str_replace (array('m=&','m='.strtolower(ADMIN_NAME).'&','m='.ADMIN_NAME.'&'), array('','',''), $url );
+		$urls = str_replace ( 'm=&', '', $url );
 	
-	} else { // PATHINFO模式或者兼容URL模式
+	} else { // PATHINFO模式或者兼容URL模式 
+		 
 		$showurlrule = '{$catdir}/{$id}.html|{$catdir}/{$id}_{$page}.html';
-		$listurlrule = '{$catdir}/|{$catdir}_{$page}.html';
+		$listurlrule = '{$catdir}/|{$catdir}_{$catid}_{$page}.html';
+		
 		$index = $URL_MODEL == 1 ? __ROOT__ . '/index.php/' : __ROOT__ . '/';
 		$search_array = array ('{$catdir}', '{$catid}', '{$id}', '{$page}' );
 		$replace_array = array ($catdir, $catid, $id, urlencode ( $param [$var_page] ) );
 		if ($id) {
 			$urls = str_replace ( $search_array, $replace_array, $showurlrule );
 		} else {
-			$urls = str_replace ( $search_array, $replace_array, $listurlrule );
+			$urls = str_replace ( $search_array, $replace_array, $listurlrule ); 
 		}
 		$urls = explode ( '|', $urls );
 		if ($page) {
@@ -392,6 +392,7 @@ function createHomeUrl($cat, $id = '', $param = array()) {
 		} else {
 			$urls = $index . $urls [0];
 		}
+		
 	}
 	return $urls;
 }
@@ -410,4 +411,24 @@ function valid_host($url) {
 	}
 	return false;
 }
+
+    /**
+     * 检测是否使用手机访问
+     * @access public
+     * @return bool
+     */
+function isMobile()
+    {
+        if (isset($_SERVER['HTTP_VIA']) && stristr($_SERVER['HTTP_VIA'], "wap")) {
+            return true;
+        } elseif (isset($_SERVER['HTTP_ACCEPT']) && strpos(strtoupper($_SERVER['HTTP_ACCEPT']), "VND.WAP.WML")) {
+            return true;
+        } elseif (isset($_SERVER['HTTP_X_WAP_PROFILE']) || isset($_SERVER['HTTP_PROFILE'])) {
+            return true;
+        } elseif (isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/(blackberry|configuration\/cldc|hp |hp-|htc |htc_|htc-|iemobile|kindle|midp|mmp|motorola|mobile|nokia|opera mini|opera |Googlebot-Mobile|YahooSeeker\/M1A1-R2D2|android|iphone|ipod|mobi|palm|palmos|pocket|portalmmm|ppc;|smartphone|sonyericsson|sqh|spv|symbian|treo|up.browser|up.link|vodafone|windows ce|xda |xda_)/i', $_SERVER['HTTP_USER_AGENT'])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 

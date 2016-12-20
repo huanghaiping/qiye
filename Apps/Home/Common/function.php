@@ -89,7 +89,7 @@ function kfType($typeid, $skinId, $number) {
 	$code_string = "";
 	switch ($typeid) {
 		case 1 :
-			$code_string = '<a target=blank href=tencent://message/?uin=' . $number . '&Menu=yes><img border="0" SRC=http://wpa.qq.com/pa?p=1:' . $number . ':' . $skinId . ' ></a>';
+			$code_string = '<a target=blank href=tencent://message/?uin=' . $number . '&Menu=yes><img border="0" src="/Apps/Home/View/default/Public/images/kefu_06.png"  ></a>';
 			break;
 		case 2 :
 			$model_name = D ( ADMIN_NAME . "/Kefu" );
