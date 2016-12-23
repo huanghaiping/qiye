@@ -65,8 +65,9 @@ body {
 				window.location.href="{:U('add')}";
 		 });
 		  $(".del").click(function(){
+			 var $this=$(this);
 			layer.confirm("确定要删除吗？",function(){
-			  var url = $(this).attr("link");
+			  var url = $this.attr("link");
 			  window.location.href=url;	
 		  }); 
 		   return false;	

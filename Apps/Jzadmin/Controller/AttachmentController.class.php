@@ -70,6 +70,20 @@ class AttachmentController extends CommonController{
 					if ($info) {
 						$litpic = UPLOAD_PATH . $info ['savepath'] . $info ['savename'];
 						chmod ( $litpic, 0777 );
+						if (isset($_POST['addwater'])&&$_POST['addwater']==1){ //添加图片水印
+							$watermark_config=F("watermark",'',INCLUDE_PATH);
+							if ($watermark_config&&$watermark_config['status']==1){
+								$image = new \Think\Image();
+								$image->open($litpic); // 打开原图
+								if (!empty($watermark_config['watermark_img'])){
+           							$image ->water(".".$watermark_config['watermark_img'],$watermark_config['watermark_pos'],$watermark_config['watermark_pct'])-> save($litpic,null,$watermark_config['watermark_quality']); //添加水印
+								}
+								//添加文字水印
+								if (!empty($watermark_config['watemard_text'])){
+									$image->text($watermark_config['watemard_text'],'.'.$watermark_config['watemard_text_face'],$watermark_config['watemard_text_size'],$watermark_config['watemard_text_color'],$watermark_config['watermark_pos'],$watermark_config['watermark_pospadding'])->save($litpic,null,$watermark_config['watermark_quality']);
+								}
+							}	
+						}
 						$jumpurl = str_replace ( "./", "/", $litpic );
 						$data['url']=$data [$field] = $jumpurl;
 						$data['status']=1;
