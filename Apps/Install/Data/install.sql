@@ -743,9 +743,9 @@ CREATE TABLE `db_wechat_welcome` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for sy_search_keyword
+-- Table structure for db_search_keyword
 -- ----------------------------
-CREATE TABLE `sy_search_keyword` (
+CREATE TABLE `db_search_keyword` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `keyword` varchar(255) NOT NULL,
   `num` int(11) NOT NULL DEFAULT '0',
@@ -946,13 +946,13 @@ INSERT INTO `db_admin_node` VALUES ('248', 'Sitemap', 'sitemap生成', '1', '', 
 INSERT INTO `db_admin_node` VALUES ('249', 'index', '生成sitemap地图', '1', '', '0', '248', '3', '', '0');
 INSERT INTO `db_admin_node` VALUES ('250', 'addcommon', '营销链接', '1', '', '0', '75', '3', '', '0');
 INSERT INTO `db_admin_node` VALUES ('251', 'upgrade', '系统升级管理', '1', '', '0', '2', '3', '', '0');
-INSERT INTO `sy_admin_node` VALUES ('252', 'Site', '图片水印管理', '1', '', '80', '44', '2', 'watermark', '0');
-INSERT INTO `sy_admin_node` VALUES ('253', 'Block', '搜索词语管理', '1', '', '110', '60', '2', 'seachkeyword', '0');
-INSERT INTO `sy_admin_node` VALUES ('254', 'seachkeyword', '关键词列表', '1', '', '0', '253', '3', '', '0');
-INSERT INTO `sy_admin_node` VALUES ('255', 'watermark', '水印设置', '1', '', '0', '252', '3', '', '0');
-INSERT INTO `sy_admin_node` VALUES ('256', 'addkeyword', '添加关键词', '1', '', '0', '253', '3', '', '0');
-INSERT INTO `sy_admin_node` VALUES ('257', 'editkeyword', '修改关键词', '1', '', '0', '253', '3', '', '0');
-INSERT INTO `sy_admin_node` VALUES ('258', 'delkeyword', '删除关键词', '1', '', '0', '253', '3', '', '0');
+INSERT INTO `db_admin_node` VALUES ('252', 'Site', '图片水印管理', '1', '', '80', '44', '2', 'watermark', '0');
+INSERT INTO `db_admin_node` VALUES ('253', 'Block', '搜索词语管理', '1', '', '110', '60', '2', 'seachkeyword', '0');
+INSERT INTO `db_admin_node` VALUES ('254', 'seachkeyword', '关键词列表', '1', '', '0', '253', '3', '', '0');
+INSERT INTO `db_admin_node` VALUES ('255', 'watermark', '水印设置', '1', '', '0', '252', '3', '', '0');
+INSERT INTO `db_admin_node` VALUES ('256', 'addkeyword', '添加关键词', '1', '', '0', '253', '3', '', '0');
+INSERT INTO `db_admin_node` VALUES ('257', 'editkeyword', '修改关键词', '1', '', '0', '253', '3', '', '0');
+INSERT INTO `db_admin_node` VALUES ('258', 'delkeyword', '删除关键词', '1', '', '0', '253', '3', '', '0');
 INSERT INTO `db_admin_role` VALUES ('1', '超级管理员', '0', '1', '系统内置超级管理员组，不受权限分配账号限制');
 INSERT INTO `db_admin_role` VALUES ('2', '普通管理员', '1', '1', '普通管理员');
 INSERT INTO `db_area` VALUES ('1', '0', '中国', '0', '0', '0');
