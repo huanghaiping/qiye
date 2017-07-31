@@ -231,7 +231,7 @@ class FieldModel extends CommonModel {
 						$postData ['thumb'] = $matches [$auto_thumb_no] [0];
 					}
 				}
-				$postData ['content'] = addSlashesFun( $postData ['content']);
+				$postData [$key] = addSlashesFun( $postData [$key]);	
 			}
 		}
 		 

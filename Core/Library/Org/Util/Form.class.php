@@ -283,10 +283,14 @@ class Form extends View {
 		$validate = getvalidate($info);
 		if(ACTION_NAME=='add'){
 			$value = $value ? $value : $info['setup']['default'];
+			echo "ss"; exit();
         }else{
 			$value = $value ? $value : $this->data[$field];
-			$value =  stripcslashes($value);
+			$value =  htmlspecialchars(stripcslashes($value));
+			 
         }
+	 
+	 
 		 $textareaid = $field;
 		 $toolbar = $info['setup']['toolbar'];
 		 $moduleid = $info['moduleid'];
@@ -298,6 +302,7 @@ class Form extends View {
 	
 		$str ='<script type="text/javascript"> $(document).ready(function(){ var ue = UE.getEditor("'.$field.'");})</script>';
 		$str .= '<div class="editor_box"><div style="display:none;" id="'.$field.'_aid_box"></div><textarea name="'.$field.'" class="'.$info['class'].'"   style="height: '.$height.'px; width: 90%;"  id="'.$id.'"  boxid="'.$id.'" '.$validate.' >'.$value.'</textarea>';
+	 
 		return $str;
 	}
 	public function datetime($info,$value){

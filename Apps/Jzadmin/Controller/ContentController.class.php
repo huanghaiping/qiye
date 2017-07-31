@@ -38,6 +38,7 @@ class ContentController extends CommonController {
 		$posid = isset ( $_REQUEST ['posid'] ) ? intval ( $_REQUEST ['posid'] ) : "";
 		$condition [] = " lang='" . $this->lang . "'";
 		$param ['l'] = $this->lang;
+		$param['moduleid']=$this->moduleId;
 		if (! empty ( $keyword )) {
 			$condition [] = " title like '%" . $keyword . "%'";
 			$param ['keyword'] = $keyword;
